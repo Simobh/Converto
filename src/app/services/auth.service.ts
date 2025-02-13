@@ -49,9 +49,9 @@ export class AuthService {
       .catch(error => console.error("Erreur lors de la déconnexion:", error.message));
   }
 
-  async resetPassword(email: string) {
+  resetPassword(email: string) {
     try {
-      await sendPasswordResetEmail(this.auth, email);
+      sendPasswordResetEmail(this.auth, email);
       alert('Email de réinitialisation envoyé !');
     } catch (error) {
       alert("Erreur: " + (error as any).message);

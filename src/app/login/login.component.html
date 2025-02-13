@@ -1,5 +1,35 @@
-<form (ngSubmit)="login()">
+<!-- <form (ngSubmit)="login()">
   <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required>
   <input type="password" placeholder="Mot de passe" [(ngModel)]="password" name="password" required>
   <button type="submit">Se connecter</button>
-</form>
+</form> -->
+
+<div class="container">
+  <div class="logo">
+      <!-- <img src="assets/logo.png" alt="Logo Converto"> -->
+  </div>
+  <div class="login-box">
+      <h2>Se connecter</h2>
+      <form (submit)="login()">
+          <label for="email">Adresse mail</label>
+          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Adresse mail" required>
+
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Mot de passe" required>
+
+          <button type="submit" class="btn">Se connecter</button>
+      </form>
+      <p><a routerLink="/reset-password">Mot de passe oublié ?</a></p>
+
+      <div class="separator">
+          <span>OU</span>
+      </div>
+
+      <button class="google-btn">
+          <!-- <img src="assets/google-icon.png" alt="Google Logo"> -->
+          Continuer avec Google
+      </button>
+
+      <p class="signup-link">Nouveau membre? <a routerLink="/signup">Créer un compte</a></p>
+  </div>
+</div>
