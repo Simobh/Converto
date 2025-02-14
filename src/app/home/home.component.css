@@ -1,0 +1,14 @@
+.container {
+    text-align: center;
+  }
+  
+  .converter {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .amount-input, .date-input {
+    margin-top: 10px;
+  }

@@ -12,6 +12,9 @@ import { SignupComponent } from './signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { HomeComponent } from './home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -19,13 +22,15 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     LoginComponent,
     SignupComponent,
     DashboardComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot([]),
     AppRoutingModule,
+    HttpClientModule,
     provideFirebaseApp(() => initializeApp({"projectId":"converto-xchange","appId":"1:661348704331:web:430201a7a421f16aae6dce","storageBucket":"converto-xchange.firebasestorage.app","apiKey":"AIzaSyDeYTwt-jgEs1ShdGhq9msKmyyL_pL41hI","authDomain":"converto-xchange.firebaseapp.com","messagingSenderId":"661348704331"})),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())

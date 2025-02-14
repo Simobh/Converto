@@ -40,7 +40,7 @@ export class AuthService {
         }
       })
       .catch((error) => {
-        console.error("Erreur de connexion:", error.message);
+        alert("Email ou mot de passe invalide !");
       });
   }
 
