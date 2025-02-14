@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap');
+/* Logo */
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.logo img {
+    width: 120px;
+}
+.container {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #0b1736; /* Bleu foncé */
+}
+
+
+.signup {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 35%;
+    height: 60%;
+    text-align: center;
+}
+
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+label {
+    display: block; 
+    text-align: left;
+    font-size: 16px;
+    font-weight: normal; 
+    margin-top: 10px;
+    color: #bbbbbb; 
+    margin-left: 65px;
+}
+
+
+input {
+    width: 75%;
+    padding: 10px;
+    height: 9%;
+    border: 0.5px solid black;
+    border-radius: 7px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s ease-in-out;
+    box-sizing: border-box; 
+    background-color: white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5); 
+    margin-bottom: 15px;
+}
+
+label, input, button, h2 {
+    font-family: 'Istok Web', sans-serif;
+}
+
+input:focus {
+    border-color: #888; /* Bordure plus discrète au focus */
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15); /* Légère ombre */
+}
+
+
+input::placeholder {
+    color: #b0b0b0;
+}
+
+
+button {
+    background-color : rgba(33, 145, 200, 0.07);
+    color: black;
+    border: 3px solid #3B7EC5;
+    border-radius: 25px; /* Rendre plus arrondi */
+    padding: 5px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    width: 40%;
+    margin-top: 15px;
+
+}
+
+/* Effet hover */
+button:hover {
+    background-color: #3B7EC5;
+    color: white;
+}
+
+

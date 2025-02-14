@@ -1,4 +1,18 @@
-<input type="email" [(ngModel)]="email" placeholder="Email" />
-<input type="password" [(ngModel)]="password" placeholder="Mot de passe" />
-<button (click)="signUp()">S'inscrire</button>
-
+<div class="container">
+    <div class="logo">
+        <img src="../../assets/logo.png" alt="Logo">
+    </div>
+    <div class = "signup" > 
+        <h2>Créer un compte</h2>
+        <label>Nom</label>
+        <input type="texte" [(ngModel)]="name" />
+        <label>Prénom</label>
+        <input type="texte" [(ngModel)]="name"  />
+        <label>Adresse mail</label>
+        <input type="email" [(ngModel)]="email" />
+        <label>Mot de passe</label>
+        <input type="password" [(ngModel)]="password"  />
+        <button (click)="signUp()">S'enregistrer</button>
+    </div>    
+   
+</div>
