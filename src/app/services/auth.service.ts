@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut, GoogleAuthProvider } from '@angular/fire/auth';
+import { signInWithPopup } from '@firebase/auth';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
@@ -56,5 +57,16 @@ export class AuthService {
     } catch (error) {
       alert("Erreur: " + (error as any).message);
     }
+  }
+
+  signWithGoogle(){
+    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(res => {
+      
+      this.router.navigate(['/dashboard']);
+      localStorage.setItem('token',JSON.stringify(res.user?.uid));
+
+    }, err => {
+      alert(err.message);
+    })
   }
 }

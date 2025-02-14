@@ -13,13 +13,13 @@
           <div class ="reset-password"> <a routerLink="/reset-password">Mot de passe oublié ?</a></div>
           <button type="submit" class="btn">Se connecter</button>
       </form>
-     
+
 
       <div class="separator">
           <span>OU</span>
       </div>
 
-      <button class="google-btn">
+      <button class="google-btn" (click)="signInWithGoogle()">
           <img src="../../assets/google-icon.png" alt="Google Logo">
           <strong> Continuer avec Google</strong>
       </button>
