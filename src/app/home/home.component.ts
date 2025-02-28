@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
@@ -19,9 +20,12 @@ export class HomeComponent  implements OnInit {
   convertedAmount: number = 0;
   date: string = new Date().toISOString().split('T')[0];
 
+  baseImageUrl:string = "";
+  targetImageUrl:string = "";
+
   sellPrice: number = 0;
   buyPrice: number = 0;
-
+ 
   labels: string[] = [];
   data: number[] = [];
 
@@ -40,6 +44,9 @@ export class HomeComponent  implements OnInit {
   }
 
   convert(type: string) {
+
+    if(this.baseCurrency) this.baseImageUrl="https://fxtop.com/ico/"+this.baseCurrency.toLowerCase()+".gif"
+    if(this.targetCurrency) this.targetImageUrl="https://fxtop.com/ico/"+this.targetCurrency.toLowerCase()+".gif"
 
     if(this.baseCurrency && this.targetCurrency && this.date && this.amount && type=='amount1')
     this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, this.amount).subscribe(data => {
@@ -90,3 +97,4 @@ export class HomeComponent  implements OnInit {
   }
 
 }
+

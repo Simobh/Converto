@@ -61,14 +61,13 @@ body, html {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 697px;
-  height: 460px;
+  width: 50%;
+  height: 90%;
   font-family:'Istok Web' ;
-
 }
 
 .non-connected-msg {
-  margin-top : 15% ;
+  margin-block : 8% ;
   text-align : center;
   color: #6F6E6E;
 }
@@ -79,8 +78,8 @@ body, html {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 427px;
-  height: 460px;
+  width: 25%;
+  height: 80%;
 }
 
 /* ✅ TITRE */
@@ -95,31 +94,46 @@ h2 {
 input, select {
   width: 80%;
   padding: 12px;
+  border: 0px;
+  font-size: 1rem;
+  background-color: white;
+  text-align: center;
+}
+
+.currency-select-img, .amount-input, .date-input, .bid-ask-input{
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 7px;
-  font-size: 1rem;
   outline: none;
   transition: 0.3s ease-in-out;
   background-color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-inline: 6px;
   text-align: center;
 }
 
+.date-input{
+  width: 48%;
+}
+
 /* ✅ ESPACEMENT ENTRE LES ÉLÉMENTS */
-.converter, .amount-input {
+.converter-input, .amount-input, .currency-select-img {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   margin-bottom: 10px;
 }
 
-.date-input {
-  width: 54.5%;
-  justify-items: left;
-
+.img-currency{
+  width: 15%;
+  height: 40px;
+  outline: none;
+  border-radius: 7px;
 }
+
 .vente-achat {
   margin-top: 8%;
 }
@@ -137,10 +151,6 @@ input, select {
   margin-bottom: 5px;
 }
 
-.bid-ask-input input {
-  width: 70%;
-  text-align: left;
-}
 
 /* ✅ ICONES & SYMBOLES */
 span {

@@ -10,32 +10,43 @@
   <div class="converter-card">
     <h2>Currency Converter</h2>
 
-    <div class="converter">
-      <select [(ngModel)]="baseCurrency" (change)="convert('amount1')">
-        <option *ngFor="let currency of currencies" [value]="currency">{{ currency }}</option>
-      </select>
-
+    <div class="converter-input">
+      <div class="currency-select-img">
+        <img *ngIf="baseImageUrl" [src]="baseImageUrl" class="img-currency"> 
+        <select [(ngModel)]="baseCurrency" (change)="convert('amount1')">
+          <option *ngFor="let currency of currencies" [value]="currency"> {{ currency }}</option>
+        </select>
+      </div>
       <span> ↔ </span>
-
-      <select [(ngModel)]="targetCurrency" (change)="convert('amount1')">
-        <option *ngFor="let currency of currencies" [value]="currency">{{ currency }}</option>
-      </select>
+      <div class="currency-select-img"> 
+        <img *ngIf="targetImageUrl" [src]="targetImageUrl" class="img-currency">
+        <select [(ngModel)]="targetCurrency" (change)="convert('amount1')">
+          <option *ngFor="let currency of currencies" [value]="currency">{{ currency }}</option>
+        </select>
+      </div>
     </div>
 
-    <div class="amount-input">
-      <input type="number" [(ngModel)]="amount" (input)="convert('amount1')" />
+    <div class="converter-input">
+      <div class="amount-input">
+        <input  [(ngModel)]="amount" (input)="convert('amount1')" />
+      </div>
       <span> ↔ </span>
-      <input type="text" [(ngModel)]="convertedAmount" (input)="convert('amount2')" />
+      <div class="amount-input">
+        <input  [(ngModel)]="convertedAmount" (input)="convert('amount2')" />
+      </div>
+    </div>
+    
+    <div class="converter-input">
+      <div class="date-input">
+        <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
+      </div>
     </div>
 
-    <div class="date-input">
-      <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
-    </div>
-
-    <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions</p>
+     <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions</p>
   </div>
 
-  <!-- ✅ Bloc Graphique -->
+
+  <!-- Bloc Graphique -->
   <div class="chart-card">
     <div class="chart-container">
       <app-chart 
@@ -47,23 +58,22 @@
       </app-chart>
     </div>
 
-    <!-- ✅ Boutons 30D / 60D / 90D -->
     <div class="graph-buttons">
       <button class="active">30D</button>
       <button>60D</button>
       <button>90D</button>
     </div>
-<div class ="vente-achat" >
-    <div class="bid-ask-input">
-      <label>Prix de vente</label>
-      <input type="number" [(ngModel)]="sellPrice" disabled="true" />
-    </div>
 
-    <div class="bid-ask-input">
+    <div class ="vente-achat" >
+      <label>Prix de vente</label>
+      <div class="bid-ask-input">
+        <input type="number" [(ngModel)]="sellPrice" disabled="true" />
+      </div>
+
       <label>Prix d'achat</label>
-      <input type="number" [(ngModel)]="buyPrice" disabled="true" />
+      <div class="bid-ask-input">
+        <input type="number" [(ngModel)]="buyPrice" disabled="true" />
+      </div>
     </div>
   </div>
-
-</div>
 </div>

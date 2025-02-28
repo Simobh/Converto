@@ -57,6 +57,9 @@ export class ChartComponent implements AfterViewInit, OnChanges {
         },
         scales: {
           x: {
+            grid: {
+              display: false
+            },
             title: {
               display: true,
               text: 'Jour du mois'
