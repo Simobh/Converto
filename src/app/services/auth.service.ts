@@ -1,28 +1,44 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, signOut, GoogleAuthProvider } from '@angular/fire/auth';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+  signOut,
+  GoogleAuthProvider,
+  User,
+  onAuthStateChanged
+} from '@angular/fire/auth';
 import { signInWithPopup } from '@firebase/auth';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  constructor(private auth: Auth, private router: Router) {}
+  private userState = new BehaviorSubject<User | null>(null);
+  user$ = this.userState.asObservable();
+
+  constructor(private auth: Auth, private router: Router) {
+    onAuthStateChanged(this.auth, (user) => {
+      this.userState.next(user);
+    });
+  }
 
   signUp(email: string, password: string) {
     createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-
-        // ✅ Envoyer un email de vérification après l'inscription
         sendEmailVerification(user)
           .then(() => {
             alert("Un email de vérification a été envoyé. Vérifie ta boîte mail !");
-            this.router.navigate(['/login']); // Redirection vers la page de connexion
+            this.router.navigate(['/login']);
           })
-          .catch(error => console.error("Erreur lors de l'envoi du mail de vérification:", error.message));
+          .catch(error => console.error("Erreur d'envoi du mail:", error.message));
       })
       .catch((error) => {
-        console.error("Erreur d'inscription:", error.message);
+        alert("Erreur d'inscription: " + error.message);
       });
   }
 
@@ -30,16 +46,14 @@ export class AuthService {
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-
-        // ✅ Vérifier si l'utilisateur a validé son email avant d'autoriser l'accès
         if (user.emailVerified) {
           this.router.navigate(['/dashboard']);
         } else {
           alert("Merci de vérifier votre email avant de vous connecter.");
-          this.logout(); // Déconnexion forcée si l'email n'est pas vérifié
+          this.logout();
         }
       })
-      .catch((error) => {
+      .catch(() => {
         alert("Email ou mot de passe invalide !");
       });
   }
@@ -47,26 +61,31 @@ export class AuthService {
   logout() {
     signOut(this.auth)
       .then(() => this.router.navigate(['/login']))
-      .catch(error => console.error("Erreur lors de la déconnexion:", error.message));
+      .catch(error => console.error("Erreur de déconnexion:", error.message));
   }
 
   resetPassword(email: string) {
-    try {
-      sendPasswordResetEmail(this.auth, email);
-      alert('Email de réinitialisation envoyé !');
-    } catch (error) {
-      alert("Erreur: " + (error as any).message);
-    }
+    sendPasswordResetEmail(this.auth, email)
+      .then(() => {
+        alert('Email de réinitialisation envoyé !');
+      })
+      .catch((error) => {
+        alert("Erreur: " + error.message);
+      });
   }
 
   signWithGoogle(){
-    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(res => {
-      
-      this.router.navigate(['/dashboard']);
-      localStorage.setItem('token',JSON.stringify(res.user?.uid));
+    return signInWithPopup(this.auth, new GoogleAuthProvider())
+      .then(res => {
+        this.router.navigate(['/dashboard']);
+        localStorage.setItem('token', JSON.stringify(res.user?.uid));
+      })
+      .catch(err => {
+        alert("Erreur Google Sign-In: " + err.message);
+      });
+  }
 
-    }, err => {
-      alert(err.message);
-    })
+  isAuthenticated(): boolean {
+    return !!this.auth.currentUser; 
   }
 }
