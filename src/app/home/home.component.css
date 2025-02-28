@@ -1,14 +1,227 @@
-.container {
-    text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap');
+
+/* ✅ BACKGROUND BLEU FONCÉ */
+body, html {
+  background-color: #0b1736 !important;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Istok Web', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ LOGO */
+.logo {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.logo img {
+  width: 130px;
+  height: auto;
+}
+
+/* ✅ BOUTON "SE CONNECTER" */
+.login-button {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 1%;
+}
+.login-button:hover {
+  background-color: white;
+  color: #0b1736;
+}
+
+/* ✅ CONTENEUR PRINCIPAL CENTRÉ */
+.main-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* ✅ BLOC CONVERTISSEUR */
+.converter-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 697px;
+  height: 460px;
+  font-family:'Istok Web' ;
+
+}
+
+.non-connected-msg {
+  margin-top : 15% ;
+  text-align : center;
+  color: #6F6E6E;
+}
+
+/* ✅ BLOC GRAPHIQUE */
+.chart-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 427px;
+  height: 460px;
+}
+
+/* ✅ TITRE */
+h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: black;
+}
+
+/* ✅ INPUTS & SELECTS */
+input, select {
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* ✅ ESPACEMENT ENTRE LES ÉLÉMENTS */
+.converter, .amount-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.date-input {
+  width: 54.5%;
+  justify-items: left;
+
+}
+.vente-achat {
+  margin-top: 8%;
+}
+/* ✅ ALIGNEMENT DES PRIX */
+.bid-ask-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.bid-ask-input label {
+  text-align: left;
+  width: 75%;
+  margin-bottom: 5px;
+}
+
+.bid-ask-input input {
+  width: 70%;
+  text-align: left;
+}
+
+/* ✅ ICONES & SYMBOLES */
+span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* ✅ BOUTONS 30J / 60J / 90J */
+.graph-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.graph-buttons button {
+  background: transparent;
+  border: 2px solid #3B7EC5;
+  color: #3B7EC5;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.graph-buttons button.active,
+.graph-buttons button:hover {
+  background: #3B7EC5;
+  color: white;
+}
+
+/* ✅ GRAPHIQUE */
+.chart-container {
+  width: 100%;
+  max-width: 380px;
+  margin: 10px auto;
+}
+
+/* ✅ MEDIA QUERIES */
+
+/* TABLETTES */
+@media (max-width: 1024px) {
+  .main-container {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .converter {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px 0;
+
+  .converter-card, .chart-card {
+    width: 85%;
+    height: auto;
   }
-  
-  .amount-input, .date-input {
-    margin-top: 10px;
+
+  .login-button {
+    top: 15px;
+    right: 15px;
   }
+}
+
+/* MOBILES */
+@media (max-width: 768px) {
+  .converter-card, .chart-card {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .bid-ask-input input {
+    width: 100%;
+  }
+
+  .login-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .logo img {
+    width: 120px;
+  }
+}
