@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 import { ViewChild, ElementRef , OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 
@@ -24,7 +25,13 @@ export class HomeComponent  implements OnInit {
   labels: string[] = [];
   data: number[] = [];
 
-  constructor(private apiService : ApiService) {}
+  isAuthenticated = false;
+
+  constructor(private authService: AuthService,private apiService : ApiService) {
+    this.authService.user$.subscribe(user => {
+      this.isAuthenticated = !!user;
+    });
+  }
 
   ngOnInit() {
     this.apiService.getAllCurrencies().subscribe(data => {
@@ -33,14 +40,14 @@ export class HomeComponent  implements OnInit {
   }
 
   convert(type: string) {
-    
+
     if(this.baseCurrency && this.targetCurrency && this.date && this.amount && type=='amount1')
     this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, this.amount).subscribe(data => {
       if (data && data.result) {
         this.convertedAmount = data.result;
       }
     });
-  
+
     if(this.targetCurrency && this.baseCurrency && this.date && this.convertedAmount && type=='amount2')
       this.apiService.getConvertionRate(this.targetCurrency, this.baseCurrency, this.date, this.convertedAmount).subscribe(data => {
         if (data && data.result) {
@@ -51,7 +58,7 @@ export class HomeComponent  implements OnInit {
       if(this.baseCurrency && this.targetCurrency){
         this.labels = this.getDaysOfMonth();
         this.data = this.getCurrencyData();
-        
+
         this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, 1).subscribe(data => {
           if (data && data.info.rate) {
             this.sellPrice = data.info.rate * (1 + 0.05);
@@ -68,7 +75,7 @@ export class HomeComponent  implements OnInit {
   }
 
 
-  
+
   getDaysOfMonth(): string[] {
     return Array.from({ length: 30 }, (_, i) => (i + 1).toString());
   }

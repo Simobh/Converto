@@ -26,6 +26,14 @@
   <div class="date-input">
     <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
   </div>
+
+  <div *ngIf="isAuthenticated; else notAuthenticated">
+    <button>+ Favoris</button>
+  </div>
+  <ng-template #notAuthenticated>
+    <p>Connectez-vous pour garder l’historique de vos conversions.</p>
+  </ng-template>
+  
 </div>
 
 <div style="width: 100%; max-width: 700px; margin: auto;">
