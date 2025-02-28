@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { ViewChild, ElementRef , OnInit } from '@angular/core';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+
+export class HomeComponent  implements OnInit {
+
   currencies: string[] = [];
   baseCurrency: string = '';
   targetCurrency: string = '';
@@ -14,29 +18,67 @@ export class HomeComponent {
   convertedAmount: number = 0;
   date: string = new Date().toISOString().split('T')[0];
 
+  sellPrice: number = 0;
+  buyPrice: number = 0;
+
+  labels: string[] = [];
+  data: number[] = [];
+
   constructor(private apiService : ApiService) {}
 
   ngOnInit() {
     this.apiService.getAllCurrencies().subscribe(data => {
-      this.currencies = Object.keys(data); // Récupérer la liste des devises
+      this.currencies = Object.keys(data);
     });
   }
 
-  convertFrom() {
-    if(this.baseCurrency && this.targetCurrency && this.date && this.amount)
+  convert(type: string) {
+    
+    if(this.baseCurrency && this.targetCurrency && this.date && this.amount && type=='amount1')
     this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, this.amount).subscribe(data => {
       if (data && data.result) {
         this.convertedAmount = data.result;
       }
     });
+  
+    if(this.targetCurrency && this.baseCurrency && this.date && this.convertedAmount && type=='amount2')
+      this.apiService.getConvertionRate(this.targetCurrency, this.baseCurrency, this.date, this.convertedAmount).subscribe(data => {
+        if (data && data.result) {
+          this.amount = data.result;
+        }
+      });
+
+      if(this.baseCurrency && this.targetCurrency){
+        this.labels = this.getDaysOfMonth();
+        this.data = this.getCurrencyData();
+        
+        this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, 1).subscribe(data => {
+          if (data && data.info.rate) {
+            this.sellPrice = data.info.rate * (1 + 0.05);
+            this.buyPrice = data.info.rate * (1 - 0.05);
+          }
+        });
+
+      }else{
+        this.labels = [];
+        this.data = [];
+        this.sellPrice = 0;
+            this.buyPrice = 0;
+      }
   }
 
-  convertTo() {
-    if(this.targetCurrency && this.baseCurrency && this.date && this.convertedAmount)
-    this.apiService.getConvertionRate(this.targetCurrency, this.baseCurrency, this.date, this.convertedAmount).subscribe(data => {
-      if (data && data.result) {
-        this.amount = data.result;
-      }
+
+  
+  getDaysOfMonth(): string[] {
+    return Array.from({ length: 30 }, (_, i) => (i + 1).toString());
+  }
+
+
+  getCurrencyData(): number[] {
+    let value = 100;
+    return Array.from({ length: 30 }, () => {
+      value += (Math.random() - 0.5) * 5;
+      return parseFloat(value.toFixed(2));
     });
   }
 

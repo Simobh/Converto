@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ChartComponent } from './chart/chart.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     SignupComponent,
     DashboardComponent,
     ResetPasswordComponent,
-    HomeComponent
+    HomeComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
