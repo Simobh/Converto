@@ -1,14 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap');
+
 /* Logo */
 .logo {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 30px; /* Ajuste l'espacement */
+    left: 30px; /* Positionne à gauche */
+    z-index: 10;
 }
 
 .logo img {
-    width: 120px;
+    width: 130px; /* Taille par défaut */
+    height: auto;
 }
+
+/* Conteneur principal */
 .container {
     width: 100%;
     text-align: center;
@@ -17,88 +22,150 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #0b1736; /* Bleu foncé */
+    background-color: #0b1736;
+    padding: 20px;
 }
 
-
+/* Boîte de connexion */
 .signup {
     background-color: white;
-    padding: 30px;
+    padding: 3%;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     width: 35%;
-    height: 60%;
+    max-width: 500px;
+    min-width: 300px;
+    height: auto;
     text-align: center;
+    margin-top: 60px; /* Augmente l’espace après le logo */
 }
-
 
 h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    font-weight: bold;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
 }
 
-
+/* Labels */
 label {
     display: block; 
     text-align: left;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: normal; 
-    margin-top: 10px;
-    color: #bbbbbb; 
-    margin-left: 65px;
+    margin-top: 1rem;
+    color: #bbbbbb;
+    margin-left: 10%;
 }
 
-
+/*  Champs input */
 input {
-    width: 75%;
+    width: 80%;
     padding: 10px;
-    height: 9%;
+    height: 45px;
     border: 0.5px solid black;
     border-radius: 7px;
-    font-size: 16px;
+    font-size: 1rem;
     outline: none;
     transition: 0.3s ease-in-out;
     box-sizing: border-box; 
     background-color: white;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5); 
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
+/*  Typographie */
 label, input, button, h2 {
     font-family: 'Istok Web', sans-serif;
 }
 
+/*  Effet focus */
 input:focus {
-    border-color: #888; /* Bordure plus discrète au focus */
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15); /* Légère ombre */
+    border-color: #888;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-
+/* Placeholder */
 input::placeholder {
     color: #b0b0b0;
 }
 
-
+/*  Bouton */
 button {
-    background-color : rgba(33, 145, 200, 0.07);
+    background-color: rgba(33, 145, 200, 0.07);
     color: black;
     border: 3px solid #3B7EC5;
-    border-radius: 25px; /* Rendre plus arrondi */
-    padding: 5px 20px;
-    font-size: 15px;
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s ease-in-out;
-    width: 40%;
+    width: 50%;
     margin-top: 15px;
-
 }
 
-/* Effet hover */
+/*  Effet hover */
 button:hover {
     background-color: #3B7EC5;
     color: white;
 }
 
+/*MEDIA QUERIES POUR RESPONSIVE */
 
+/*  Tablettes */
+@media (max-width: 1024px) {
+    .signup {
+        width: 50%;
+    }
+}
+
+/*  Mobiles (moins de 768px) */
+@media (max-width: 768px) {
+    .logo {
+        top: 15px;
+        left: 15px;
+        transform: none;
+    }
+
+    .logo img {
+        width: 130px; /* Taille FIXE du logo sur mobile */
+    }
+
+    .signup {
+        width: 70%;
+        padding: 2rem;
+        margin-top: 15%;
+    }
+
+    button {
+        width: 60%;
+    }
+
+    input {
+        width: 90%;
+    }
+}
+
+/*  Très petits écrans (moins de 480px) */
+@media (max-width: 480px) {
+    .logo {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%); /* Centre le logo uniquement sur très petits écrans */
+    }
+
+    .logo img {
+        width: 130px; /* Même taille sur très petits écrans */
+    }
+
+    .signup {
+        width: 85%;
+    }
+
+    button {
+        width: 70%;
+    }
+
+    label {
+        margin-left: 5%;
+    }
+}

@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap');
 
 /* Logo */
+
 .logo {
   position: absolute;
-  top: 2%;
-  left: 3%;
+  top: 30px; /* Ajuste l'espacement */
+  left: 30px; /* Positionne à gauche */
+  z-index: 10;
 }
 
 .logo img {
-  width: 100%; /* Responsive */
-  max-width: 120px;
+  width: 130px; /* Taille par défaut */
+  height: auto;
 }
-
-/* Conteneur principal */
+/*  Conteneur principal */
 .container {
   width: 100%;
   text-align: center;
@@ -21,30 +22,33 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #0b1736; /* Bleu foncé */
+  background-color: #0b1736;
+  padding: 20px;
 }
 
-/* Labels */
+/*  Labels */
 label {
-  display: block; 
+  display: block;
   text-align: left;
   font-size: 1rem;
-  font-weight: normal; 
+  font-weight: normal;
   margin-top: 1rem;
-  color: #bbbbbb; 
+  color: #bbbbbb;
   margin-left: 10%;
 }
 
-/* Boîte de connexion */
+/*  Boîte de connexion */
 .login-box {
   background-color: white;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   width: 35%;
-  max-width: 450px; /* Empêche d'être trop large sur les grands écrans */
-  height: auto; /* Adaptatif */
+  max-width: 450px;
+  min-width: 280px;
+  height: auto;
   text-align: center;
+  margin-top: 60px;
 }
 
 h2 {
@@ -52,7 +56,7 @@ h2 {
   font-size: 1.8rem;
 }
 
-/* Inputs */
+/*  Inputs */
 input {
   width: 80%;
   padding: 0.7rem;
@@ -61,15 +65,15 @@ input {
   font-size: 1rem;
   outline: none;
   transition: 0.3s ease-in-out;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   background-color: white;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
   margin-bottom: 1rem;
 }
 
-/* Bouton principal */
+/*  Bouton principal */
 .btn {
-  background-color : rgba(33, 145, 200, 0.07);
+  background-color: rgba(33, 145, 200, 0.07);
   color: black;
   border: 3px solid #3B7EC5;
   border-radius: 25px;
@@ -89,26 +93,25 @@ input {
 
 label, input, button, h2 {
   font-family: 'Istok Web', sans-serif;
-} 
+}
 
 /* Lien mot de passe oublié */
 .reset-password a {
   color: #bbbbbb;
   text-decoration: none;
   font-size: 0.9rem;
-  font-family: 'Istok Web';
 }
 
+/*  Séparateur */
 .separator {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 20px auto;
-  width: 82%; /* La même largeur que les inputs */
-  max-width: 400px; /* Ajuste selon la taille des inputs */
+  width: 80%;
+  max-width: 400px;
   position: relative;
   color: #bbbbbb;
-  font-family: 'Istok Web';
 }
 
 .separator::before,
@@ -128,14 +131,14 @@ label, input, button, h2 {
   font-size: 13px;
 }
 
-
+/* Bouton Google */
 .google-btn {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centre le contenu */
-  width: 75%; /* Même largeur que les inputs */
-  max-width: 400px; /* Ajuste la taille max */
-  margin: 0 auto; /* Centre horizontalement */
+  justify-content: center;
+  width: 75%;
+  max-width: 400px;
+  margin: 0 auto;
   padding: 12px;
   background: black;
   color: white;
@@ -143,13 +146,12 @@ label, input, button, h2 {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  font-family: 'Istok Web';
   font-weight: bold;
-  gap: 10px; /* Espacement entre l'icône et le texte */
+  gap: 10px;
 }
 
 .google-btn img {
-  width: 20px; /* Ajuste la taille de l'icône */
+  width: 20px;
   height: 20px;
 }
 
@@ -157,40 +159,35 @@ label, input, button, h2 {
   background: #333;
 }
 
-
-
-.google-btn:hover {
-  background: #333;
-}
-
-
+/* Lien inscription */
 .signup-link {
   margin-top: 1rem;
   font-size: 0.9rem;
   color: #bbbbbb;
-  font-family: 'Istok Web';
 }
 
 .signup-link a {
   color: #bbbbbb;
   text-decoration: none;
-  font-family: 'Istok Web';
 }
 
 .signup-link a:hover {
   text-decoration: underline;
 }
 
-/* 📌 MEDIA QUERIES pour rendre tout responsive */
+/*MEDIA QUERIES pour responsive */
+
+/*  Tablettes */
 @media (max-width: 1024px) {
   .login-box {
-    width: 50%; /* Plus large sur tablettes */
+    width: 50%;
   }
 }
 
+/*  Mobiles */
 @media (max-width: 768px) {
   .login-box {
-    width: 70%; /* Plus large sur mobiles */
+    width: 70%;
     padding: 1.5rem;
   }
   .btn {
@@ -199,18 +196,31 @@ label, input, button, h2 {
   input {
     width: 90%;
   }
+  .logo {
+    top: 15px;
+        left: 15px;
+        transform: none;
+  }
 }
 
+/*  Très petits écrans */
 @media (max-width: 480px) {
   .login-box {
-    width: 85%; /* S'adapte aux petits écrans */
+    width: 85%;
   }
   .btn {
     width: 70%;
+  }
+  .logo {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .logo img {
+    width: 130px; /* Réduit la taille du logo sur petits écrans */
   }
   .separator::before {
     width: 40%;
     left: 30%;
   }
 }
-
