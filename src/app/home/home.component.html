@@ -48,7 +48,7 @@
     </div>
 
     <div *ngIf="isAuthenticated; else notAuthenticatedForFavoris">
-      <button>+ Favoris</button>
+      <button (click)="addToFavorites()">+ Favoris</button>
     </div>
     <ng-template #notAuthenticatedForFavoris>
       <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions.</p>

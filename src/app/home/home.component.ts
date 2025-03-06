@@ -2,6 +2,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
+import { FirestoreService } from '../services/firestore.service';
 import { ViewChild, ElementRef , OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 
@@ -25,13 +26,13 @@ export class HomeComponent  implements OnInit {
 
   sellPrice: number = 0;
   buyPrice: number = 0;
- 
+
   labels: string[] = [];
   data: number[] = [];
 
   isAuthenticated = false;
 
-  constructor(private authService: AuthService,private apiService : ApiService) {
+  constructor(private authService: AuthService,private apiService : ApiService, private fireStoreService : FirestoreService) {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
     });
@@ -87,12 +88,17 @@ export class HomeComponent  implements OnInit {
     return Array.from({ length: 30 }, (_, i) => (i + 1).toString());
   }
 
-
   getCurrencyData(): number[] {
     let value = 100;
     return Array.from({ length: 30 }, () => {
       value += (Math.random() - 0.5) * 5;
       return parseFloat(value.toFixed(2));
+    });
+  }
+
+  addToFavorites() {
+    this.fireStoreService.addFavoriteCurrency(this.baseCurrency, this.targetCurrency).subscribe(() => {
+      alert('Devise ajoutée aux favoris');
     });
   }
 
