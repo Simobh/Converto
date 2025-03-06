@@ -3,7 +3,12 @@
   <img src="assets/logo.png" alt="Logo">
 </div>
 
-<button class ="login-button" routerLink="/login"> Se connecter</button>
+<div *ngIf="isAuthenticated; else notAuthenticated">
+  <button class ="profile-button"><img src="assets/profile.png" alt="profile"></button>
+</div>
+<ng-template #notAuthenticated>
+  <button class ="login-button" routerLink="/login"> Se connecter</button>
+</ng-template>
 
 <div class="main-container">
 
@@ -12,13 +17,13 @@
 
     <div class="converter-input">
       <div class="currency-select-img">
-        <img *ngIf="baseImageUrl" [src]="baseImageUrl" class="img-currency"> 
+        <img *ngIf="baseImageUrl" [src]="baseImageUrl" class="img-currency">
         <select [(ngModel)]="baseCurrency" (change)="convert('amount1')">
           <option *ngFor="let currency of currencies" [value]="currency"> {{ currency }}</option>
         </select>
       </div>
       <span> ↔ </span>
-      <div class="currency-select-img"> 
+      <div class="currency-select-img">
         <img *ngIf="targetImageUrl" [src]="targetImageUrl" class="img-currency">
         <select [(ngModel)]="targetCurrency" (change)="convert('amount1')">
           <option *ngFor="let currency of currencies" [value]="currency">{{ currency }}</option>
@@ -35,23 +40,29 @@
         <input  [(ngModel)]="convertedAmount" (input)="convert('amount2')" />
       </div>
     </div>
-    
+
     <div class="converter-input">
       <div class="date-input">
         <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
       </div>
     </div>
 
-     <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions</p>
+    <div *ngIf="isAuthenticated; else notAuthenticatedForFavoris">
+      <button>+ Favoris</button>
+    </div>
+    <ng-template #notAuthenticatedForFavoris>
+      <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions.</p>
+    </ng-template>
+
   </div>
 
 
   <!-- Bloc Graphique -->
   <div class="chart-card">
     <div class="chart-container">
-      <app-chart 
-        [labels]="labels" 
-        [data]="data" 
+      <app-chart
+        [labels]="labels"
+        [data]="data"
         label="Évolution de la devise au fil du mois"
         borderColor="blue"
         backgroundColor="rgba(0, 0, 255, 0.2)">

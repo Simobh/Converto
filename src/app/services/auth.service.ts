@@ -47,7 +47,7 @@ export class AuthService {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user.emailVerified) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         } else {
           alert("Merci de vérifier votre email avant de vous connecter.");
           this.logout();
@@ -77,7 +77,7 @@ export class AuthService {
   signWithGoogle(){
     return signInWithPopup(this.auth, new GoogleAuthProvider())
       .then(res => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
         localStorage.setItem('token', JSON.stringify(res.user?.uid));
       })
       .catch(err => {
@@ -86,6 +86,6 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.auth.currentUser; 
+    return !!this.auth.currentUser;
   }
 }
