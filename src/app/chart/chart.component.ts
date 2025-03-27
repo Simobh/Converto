@@ -65,8 +65,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
               display: this.x_grid_display
             },
             title: {
-              display: this.title_display,
-              text: 'Jour du mois'
+              display: this.title_display
             },
             ticks: {
               display: this.show_ticks
@@ -77,11 +76,10 @@ export class ChartComponent implements AfterViewInit, OnChanges {
               display: this.y_grid_display
             },
             title: {
-              display: this.title_display,
-              text: 'Valeur'
+              display: this.title_display
             },
             ticks: {
-              display: this.show_ticks 
+              display: this.show_ticks
             }
           }
         }
@@ -94,5 +92,5 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     this.chart.data.datasets[0].data = this.data;
     this.chart.update();
   }
-  
+
 }

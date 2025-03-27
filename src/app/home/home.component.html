@@ -4,7 +4,28 @@
 </div>
 
 <div *ngIf="isAuthenticated; else notAuthenticated">
-  <button class ="profile-button"><img src="assets/profile.png" alt="profile"></button>
+  <div class="dropdown-container">
+    <details class="dropdown left">
+      <summary>
+        <span class="with-down-arrow">
+          <img src="../../assets/profile.png" alt="Profile" class="profile-img">
+        </span>
+      </summary>
+      <ul>
+        <li>
+          <a routerLink="/favoris">
+            <i class="fas fa-solid fa-heart"></i> Favoris
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a (click)="logout()">
+            <i class="fas fa-solid fa-right-from-bracket"></i> Déconnexion
+          </a>
+        </li>
+      </ul>
+    </details>
+  </div>
 </div>
 <ng-template #notAuthenticated>
   <button class ="login-button" routerLink="/login"> Se connecter</button>
@@ -13,7 +34,7 @@
 <div class="main-container">
 
   <div class="converter-card">
-    <h2>Currency Converter</h2>
+    <h1>Currency Converter</h1>
 
     <div class="converter-input">
       <div class="currency-select-img">
@@ -22,7 +43,6 @@
           <option *ngFor="let currency of currencies" [value]="currency"> {{ currency }}</option>
         </select>
       </div>
-      <span> ↔ </span>
       <div class="currency-select-img">
         <img *ngIf="targetImageUrl" [src]="targetImageUrl" class="img-currency">
         <select [(ngModel)]="targetCurrency" (change)="convert('amount1')">
@@ -31,11 +51,14 @@
       </div>
     </div>
 
+    <div class="swap-icon" (click)="swapCurrencies()">
+      <i class="fas fa-exchange-alt"></i>
+    </div>
+
     <div class="converter-input">
       <div class="amount-input">
         <input  [(ngModel)]="amount" (input)="convert('amount1')" />
       </div>
-      <span> ↔ </span>
       <div class="amount-input">
         <input  [(ngModel)]="convertedAmount" (input)="convert('amount2')" />
       </div>
@@ -68,21 +91,23 @@
     </div>
 
     <div class="graph-buttons">
-      <button class="active">30D</button>
-      <button>60D</button>
-      <button>90D</button>
+      <button [class.active]="selectedPeriod === 30" (click)="changePeriod(30)">30D</button>
+      <button [class.active]="selectedPeriod === 60" (click)="changePeriod(60)">60D</button>
+      <button [class.active]="selectedPeriod === 90" (click)="changePeriod(90)">90D</button>
+    </div>
+    <div class="vente-achat-infos">
+      <div class ="vente-achat" >
+        <label>Prix de vente</label>
+        <div class="bid-ask-input">
+          <input type="number" [(ngModel)]="sellPrice" disabled="true" />
+        </div>
+
+        <label>Prix d'achat</label>
+        <div class="bid-ask-input">
+          <input type="number" [(ngModel)]="buyPrice" disabled="true" />
+        </div>
+      </div>
     </div>
 
-    <div class ="vente-achat" >
-      <label>Prix de vente</label>
-      <div class="bid-ask-input">
-        <input type="number" [(ngModel)]="sellPrice" disabled="true" />
-      </div>
-
-      <label>Prix d'achat</label>
-      <div class="bid-ask-input">
-        <input type="number" [(ngModel)]="buyPrice" disabled="true" />
-      </div>
-    </div>
   </div>
 </div>

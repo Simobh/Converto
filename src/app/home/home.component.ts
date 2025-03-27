@@ -14,6 +14,8 @@ import Chart from 'chart.js/auto';
 
 export class HomeComponent  implements OnInit {
 
+  email: string = ''
+
   currencies: string[] = [];
   baseCurrency: string = '';
   targetCurrency: string = '';
@@ -30,11 +32,16 @@ export class HomeComponent  implements OnInit {
   labels: string[] = [];
   data: number[] = [];
 
+  selectedPeriod: number = 30;
+
   isAuthenticated = false;
 
   constructor(private authService: AuthService,private apiService : ApiService, private fireStoreService : FirestoreService) {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
+      if (user) {
+        this.email = user.email || '';
+      }
     });
   }
 
@@ -46,8 +53,8 @@ export class HomeComponent  implements OnInit {
 
   convert(type: string) {
 
-    if(this.baseCurrency) this.baseImageUrl="https://fxtop.com/ico/"+this.baseCurrency.toLowerCase()+".gif"
-    if(this.targetCurrency) this.targetImageUrl="https://fxtop.com/ico/"+this.targetCurrency.toLowerCase()+".gif"
+    if(this.baseCurrency) this.baseImageUrl=`../../assets/flags/ic_flag_${this.baseCurrency.toLowerCase()}.png`
+    if(this.targetCurrency) this.targetImageUrl=`../../assets/flags/ic_flag_${this.targetCurrency.toLowerCase()}.png`
 
     if(this.baseCurrency && this.targetCurrency && this.date && this.amount && type=='amount1')
     this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, this.amount).subscribe(data => {
@@ -82,10 +89,19 @@ export class HomeComponent  implements OnInit {
       }
   }
 
-
-
   getDaysOfMonth(): string[] {
-    return Array.from({ length: 30 }, (_, i) => (i + 1).toString());
+    const days = [];
+    const currentDate = new Date();
+
+    for (let i = 0; i < this.selectedPeriod; i++) {
+      const date = new Date(currentDate);
+      date.setDate(currentDate.getDate() - i);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      days.unshift(`${day}/${month}`);
+    }
+
+    return days;
   }
 
   getCurrencyData(): number[] {
@@ -100,6 +116,27 @@ export class HomeComponent  implements OnInit {
     this.fireStoreService.addFavoriteCurrency(this.baseCurrency, this.targetCurrency).subscribe(() => {
       alert('Devise ajoutée aux favoris');
     });
+  }
+
+  changePeriod(days: number) {
+    this.selectedPeriod = days;
+    if(this.baseCurrency && this.targetCurrency) {
+      this.labels = this.getDaysOfMonth();
+      this.data = this.getCurrencyData();
+    }
+  }
+
+  swapCurrencies() {
+    const tempCurrency = this.baseCurrency;
+    const tempAmount = this.amount;
+    this.baseCurrency = this.targetCurrency;
+    this.targetCurrency = tempCurrency;
+    this.amount = this.convertedAmount;
+    this.convert('amount1');
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

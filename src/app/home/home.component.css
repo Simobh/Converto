@@ -36,6 +36,7 @@ body, html {
   transition: 0.3s ease-in-out;
 
 }
+
 .profile-button img {
   width: 80px;
   height: auto;
@@ -77,7 +78,7 @@ body, html {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 50%;
+  width: 35%;
   min-height: 60vh;/* ✅ Ajouté pour égaliser la hauteur */
   font-family:'Istok Web';
 }
@@ -94,7 +95,7 @@ body, html {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 25%;
+  width: 20%;
   min-height: 60vh; /* ✅ Même valeur */
 }
 
@@ -107,13 +108,40 @@ h2 {
 }
 
 /* ✅ INPUTS & SELECTS */
-input, select {
+input {
   width: 80%;
   padding: 12px;
   border: 0px;
   font-size: 1rem;
   background-color: white;
   text-align: center;
+}
+
+.currency-select-img select {
+  appearance: none; /* Supprime le style natif du navigateur */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 80%;
+  padding: 12px 0;
+  border: none;
+  font-size: 1rem;
+  background-color: white;
+  text-align: start;
+}
+
+.currency-select-img {
+  position: relative;
+}
+
+.currency-select-img::after {
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  top: 55%;
+  transform: translateY(-50%);
+  color: #000000;
+  pointer-events: none;
+  font-size: 18px;
 }
 
 .currency-select-img, .amount-input, .bid-ask-input{
@@ -152,19 +180,31 @@ input, select {
   justify-content: space-around;
   width: 100%;
   margin-bottom: 10px;
+  padding: 7px 0;
+  gap: 50px;
 }
+
 
 .img-currency{
   width: 15%;
-  height: 40px;
+  height: 14%;
   outline: none;
   border-radius: 7px;
+  margin-left: 25px;
+  margin-top: 0px;
+}
+
+.vente-achat-infos{
+  display: flex;
+  justify-content: center;
+
 }
 
 .vente-achat {
   margin-top: 8%;
   font-family: 'Istok Web';
 }
+
 /* ✅ ALIGNEMENT DES PRIX */
 .bid-ask-input {
   display: flex;
@@ -173,8 +213,10 @@ input, select {
   width: 100%;
 }
 
-.bid-ask-input label {
+.vente-achat label {
+  color: #5f5f5f;
   text-align: left;
+  margin-left: 10px;
   width: 75%;
   font-family: 'Istok Web';
 }
@@ -190,16 +232,16 @@ span {
 .graph-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 30px;
   margin-top: 15px;
 }
 
 .graph-buttons button {
   background: transparent;
-  border: 2px solid #3B7EC5;
-  color: #3B7EC5;
-  font-size: 0.9rem;
-  font-weight: bold;
+  color: #706d6d;
+  font-size: 1rem;
+  font-weight: 200;
+  border: none;
   padding: 8px 14px;
   border-radius: 20px;
   cursor: pointer;
@@ -208,8 +250,8 @@ span {
 
 .graph-buttons button.active,
 .graph-buttons button:hover {
-  background: #3B7EC5;
-  color: white;
+  background: #eef1f5;
+  color: #706d6d;
 }
 
 .button-favoris {
@@ -218,7 +260,7 @@ span {
   color: white;
   font-weight: bold;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
   display: block;           /* ✅ Nécessaire pour que margin auto fonctionne */
@@ -234,6 +276,24 @@ span {
 .button-favoris:hover {
   background-color: #c62828;
   transform: scale(1.03);
+}
+
+.swap-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.swap-icon i {
+  font-size: 30px;
+  color: #000000;
+  transition: transform 0.3s ease;
+}
+
+.swap-icon:hover i {
+  transform: rotate(180deg);
 }
 
 
@@ -287,4 +347,89 @@ span {
   .logo img {
     width: 120px;
   }
+}
+
+.dropdown-container {
+  position: absolute;
+  top: 5px;
+  right: 40px;
+  padding: 10px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown[open] summary {
+  background: #ffffff10;
+}
+
+.dropdown summary {
+  list-style: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.profile-img {
+  width: 80px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.with-down-arrow {
+  display: inline-flex;
+  padding: 5px;
+  align-items: center;
+  color: #fff;
+  line-height: 1;
+}
+
+.dropdown.left ul {
+  left: auto;
+  right: 0;
+  top: 100%;
+  margin-top: 10px;
+}
+
+.dropdown ul {
+  padding: 8px 0;
+  margin: 0;
+  box-shadow: 0 0 10px #00000030;
+  min-width: 200px;
+  position: absolute;
+  border-radius: 10px;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.dropdown ul li {
+  list-style-type: none;
+  padding: 8px 16px;
+}
+
+.dropdown ul li a {
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown ul li.divider {
+  border-top: 1px solid #eee;
+  margin: 1px 0;
+}
+
+.block {
+  display: block;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+  color: #666;
 }
