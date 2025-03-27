@@ -15,6 +15,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChartComponent } from './chart/chart.component';
+import { FavorisComponent } from './favoris/favoris.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ChartComponent } from './chart/chart.component';
     DashboardComponent,
     ResetPasswordComponent,
     HomeComponent,
-    ChartComponent
+    ChartComponent,
+    FavorisComponent
   ],
   imports: [
     BrowserModule,

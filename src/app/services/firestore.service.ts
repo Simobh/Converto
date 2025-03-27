@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData  } from '@angular/fire/firestore';
 import { Auth, authState } from '@angular/fire/auth';
 import { map, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
@@ -30,6 +30,17 @@ export class FirestoreService {
         } else {
           return of(null);
         }
+      })
+    );
+  }
+
+  getUserFavorites(): Observable<any[]> {
+    return this.getUserUID().pipe(
+      switchMap(uid => {
+        if (!uid) return of([]); // Si l'utilisateur n'est pas connecté, on retourne une liste vide
+
+        const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
+        return collectionData(userFavoritesCollection, { idField: 'id' }); // Retourne les données Firestore avec l'ID
       })
     );
   }

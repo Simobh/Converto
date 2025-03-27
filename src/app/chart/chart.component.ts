@@ -15,6 +15,10 @@ export class ChartComponent implements AfterViewInit, OnChanges {
   @Input() label: string = 'Graphique';
   @Input() borderColor: string = 'blue';
   @Input() backgroundColor: string = 'rgba(0, 0, 255, 0.2)';
+  @Input() title_display: boolean = true;
+  @Input() x_grid_display: boolean = false;
+  @Input() y_grid_display: boolean = true;
+  @Input() show_ticks: boolean = true;
 
   chart!: Chart;
 
@@ -52,23 +56,32 @@ export class ChartComponent implements AfterViewInit, OnChanges {
         responsive: true,
         plugins: {
           legend: {
-            display: true
+            display: false
           }
         },
         scales: {
           x: {
             grid: {
-              display: false
+              display: this.x_grid_display
             },
             title: {
-              display: true,
+              display: this.title_display,
               text: 'Jour du mois'
+            },
+            ticks: {
+              display: this.show_ticks
             }
           },
           y: {
+            grid: {
+              display: this.y_grid_display
+            },
             title: {
-              display: true,
+              display: this.title_display,
               text: 'Valeur'
+            },
+            ticks: {
+              display: this.show_ticks 
             }
           }
         }

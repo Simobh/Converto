@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Suivi des devises favorites</h2>
+
+  <table class="currency-table">
+      <thead>
+          <tr>
+              <th>De</th>
+              <th></th>
+              <th>Vers</th>
+              <th>Évolution</th>
+              <th>Graphique</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of dashbord">
+              <td>
+                  <img [src]="'https://fxtop.com/ico/'+item.from.toLowerCase()+ '.gif'" alt="{{ item.from }}">
+                  <span>{{ item.from }}</span>
+              </td>
+              <td>↔</td>
+              <td>
+                  <img [src]="'https://fxtop.com/ico/'+item.to.toLowerCase()+ '.gif'" alt="{{ item.to }}">
+                  <span>{{ item.to }}</span>
+              </td>
+              <td class="rate-change" [ngClass]="{'positive': item.rate >= 0, 'negative': item.rate < 0}">
+                  {{ item.rate > 0 ? '+' : '' }}{{ item.rate.toFixed(6) }}
+              </td>
+              <td class="graph">
+                  <app-chart
+                      [labels]="item.labels"
+                      [data]="item.data"
+                      [borderColor]="item.rate >= 0 ? 'green' : 'red'"
+                      [backgroundColor]="item.rate >= 0 ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'"
+                      [title_display]="false"
+                      [y_grid_display]="false"
+                      [show_ticks]="false">
+                  </app-chart>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
