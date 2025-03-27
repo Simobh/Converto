@@ -41,14 +41,12 @@
       </div>
     </div>
 
-    <div class="converter-input">
-      <div class="date-input">
-        <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
-      </div>
+    <div class="date-input">
+      <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
     </div>
 
     <div *ngIf="isAuthenticated; else notAuthenticatedForFavoris">
-      <button (click)="addToFavorites()">+ Favoris</button>
+      <button (click)="addToFavorites()" class="button-favoris">+ Favoris</button>
     </div>
     <ng-template #notAuthenticatedForFavoris>
       <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions.</p>

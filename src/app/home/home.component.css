@@ -66,8 +66,9 @@ body, html {
   display: flex;
   gap: 40px;
   justify-content: center;
-  align-items: center;
+  align-items: stretch; /* ✅ Étire les enfants pour les égaliser */
   margin-top: 20px;
+  flex-wrap: wrap; /* ✅ Permet de passer à 1 colonne en responsive */
 }
 
 /* ✅ BLOC CONVERTISSEUR */
@@ -77,8 +78,8 @@ body, html {
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   width: 50%;
-  height: 90%;
-  font-family:'Istok Web' ;
+  min-height: 60vh;/* ✅ Ajouté pour égaliser la hauteur */
+  font-family:'Istok Web';
 }
 
 .non-connected-msg {
@@ -94,7 +95,7 @@ body, html {
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   width: 25%;
-  height: 80%;
+  min-height: 60vh; /* ✅ Même valeur */
 }
 
 /* ✅ TITRE */
@@ -115,7 +116,7 @@ input, select {
   text-align: center;
 }
 
-.currency-select-img, .amount-input, .date-input, .bid-ask-input{
+.currency-select-img, .amount-input, .bid-ask-input{
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 7px;
@@ -130,8 +131,19 @@ input, select {
 }
 
 .date-input{
-  width: 48%;
+  width: 46%;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  margin-bottom: 70px;
+  margin-inline: 6px;
+  text-align: center;
 }
+
 
 /* ✅ ESPACEMENT ENTRE LES ÉLÉMENTS */
 .converter-input, .amount-input, .currency-select-img {
@@ -151,6 +163,7 @@ input, select {
 
 .vente-achat {
   margin-top: 8%;
+  font-family: 'Istok Web';
 }
 /* ✅ ALIGNEMENT DES PRIX */
 .bid-ask-input {
@@ -163,7 +176,7 @@ input, select {
 .bid-ask-input label {
   text-align: left;
   width: 75%;
-  margin-bottom: 5px;
+  font-family: 'Istok Web';
 }
 
 
@@ -198,6 +211,31 @@ span {
   background: #3B7EC5;
   color: white;
 }
+
+.button-favoris {
+  padding: 12px 24px;
+  background-color: #E93131;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  display: block;           /* ✅ Nécessaire pour que margin auto fonctionne */
+  width: 35%;
+  height: 18%;
+  text-align: center;
+  margin-block: 100% ;
+  font-size: 18px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 20px auto 0 auto; /* ✅ Centre horizontalement */
+}
+
+.button-favoris:hover {
+  background-color: #c62828;
+  transform: scale(1.03);
+}
+
 
 /* ✅ GRAPHIQUE */
 .chart-container {
