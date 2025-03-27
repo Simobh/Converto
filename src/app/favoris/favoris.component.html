@@ -1,42 +1,54 @@
-<div class="container">
-  <h2>Suivi des devises favorites</h2>
+<div class="logo">
+    <img src="assets/logo.png" alt="Logo">
+  </div>
+  
+  <div>
+    <button class="profile-button">
+      <img src="assets/profile.png" alt="profile">
+    </button>
+  </div>
+  
+  <div class="container">
+    <h2 class="titre">Suivi des devises favorites</h2>
+  
+    <table class="currency-table">
 
-  <table class="currency-table">
-      <thead>
-          <tr>
-              <th>De</th>
-              <th></th>
-              <th>Vers</th>
-              <th>Évolution</th>
-              <th>Graphique</th>
-          </tr>
-      </thead>
       <tbody>
-          <tr *ngFor="let item of dashbord">
-              <td>
-                  <img [src]="'https://fxtop.com/ico/'+item.from.toLowerCase()+ '.gif'" alt="{{ item.from }}">
-                  <span>{{ item.from }}</span>
-              </td>
-              <td>↔</td>
-              <td>
-                  <img [src]="'https://fxtop.com/ico/'+item.to.toLowerCase()+ '.gif'" alt="{{ item.to }}">
-                  <span>{{ item.to }}</span>
-              </td>
-              <td class="rate-change" [ngClass]="{'positive': item.rate >= 0, 'negative': item.rate < 0}">
-                  {{ item.rate > 0 ? '+' : '' }}{{ item.rate.toFixed(6) }}
-              </td>
-              <td class="graph">
-                  <app-chart
-                      [labels]="item.labels"
-                      [data]="item.data"
-                      [borderColor]="item.rate >= 0 ? 'green' : 'red'"
-                      [backgroundColor]="item.rate >= 0 ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'"
-                      [title_display]="false"
-                      [y_grid_display]="false"
-                      [show_ticks]="false">
-                  </app-chart>
-              </td>
-          </tr>
+        <tr *ngFor="let item of dashbord">
+        
+          <td data-label="De">
+        <div class="favoris-table-ligne">
+        <div>
+            <img [src]="'https://hatscripts.github.io/circle-flags/flags/' + item.from.toLowerCase().slice(0,2) + '.svg'" alt="{{ item.from }}">
+            <span>{{ item.from }}</span>
+        </div>
+          <div data-label="">
+            ↔
+          </div>
+          <div data-label="Vers">
+            <img [src]="'https://hatscripts.github.io/circle-flags/flags/' + item.to.toLowerCase().slice(0,2) + '.svg'" alt="{{ item.to }}">
+            <span>{{ item.to }}</span>
+          </div>
+          <div data-label="Évolution" class="rate-change" [ngClass]="{'positive': item.rate >= 0, 'negative': item.rate < 0}">
+            {{ item.rate > 0 ? '+' : '' }}{{ item.rate.toFixed(6) }}
+          </div>
+          <div data-label="Graphique">
+            <app-chart
+              [labels]="item.labels"
+              [data]="item.data"
+              [borderColor]="item.rate >= 0 ? 'green' : 'red'"
+              [backgroundColor]="item.rate >= 0 ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'"
+              [title_display]="false"
+              [y_grid_display]="false"
+              [show_ticks]="false">
+            </app-chart>
+        </div>
+    </div>
+        </td>
+        </tr>
       </tbody>
-  </table>
-</div>
+    </table>
+  
+    <button class="show-more-button">Afficher plus</button>
+  </div>
+  
