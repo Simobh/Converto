@@ -40,7 +40,7 @@
 
 h2 {
     margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 /* Labels */
@@ -93,7 +93,7 @@ button {
     border: 3px solid #3B7EC5;
     border-radius: 25px;
     padding: 8px 20px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s ease-in-out;
