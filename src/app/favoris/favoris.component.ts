@@ -8,15 +8,21 @@ import { forkJoin } from 'rxjs';
   templateUrl: './favoris.component.html',
   styleUrls: ['./favoris.component.css']
 })
+
 export class FavorisComponent implements OnInit {
-
   isAuthenticated = false;
-  favoris: any[] = []; 
-  todayRate =0;
-  yesterdayRate = 0;
-  dashbord: {from : string, to : string, rate : number, labels : string[], data : number[]}[] = [];
+  favoris: any[] = [];
+  dashbord: {from: string, to: string, rate: number, labels: string[], data: number[]}[] = [];
 
-  constructor(private authService: AuthService, private fireStoreService: FirestoreService, private apiService : ApiService) {
+  displayedDashboard: any[] = [];  // Tableau pour l'affichage progressif
+  itemsToShow: number = 5;         // Affiche 5 éléments par défaut
+  currentItemsCount: number = 5;   // Suivi du nombre actuel affiché
+
+  constructor(
+    private authService: AuthService,
+    private fireStoreService: FirestoreService,
+    private apiService: ApiService
+  ) {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
     });
@@ -28,36 +34,36 @@ export class FavorisComponent implements OnInit {
 
   loadFavorites() {
     this.fireStoreService.getUserFavorites().subscribe(favorites => {
-      const today = new Date();
-      const yesterday = new Date();
-      yesterday.setDate(today.getDate() - 1);
-  
-      const todayStr = today.toISOString().split('T')[0];
-      const yesterdayStr = yesterday.toISOString().split('T')[0];
-  
-      favorites.forEach(fav => {
-        const from = fav.baseCurrency;
-        const to = fav.targetCurrency;
-  
-        // Utilisation de forkJoin pour exécuter les requêtes en parallèle et attendre leur résolution
-        forkJoin({
-          todayRate: this.apiService.getConvertionRate(from, to, todayStr, 1),
-          yesterdayRate: this.apiService.getConvertionRate(from, to, yesterdayStr, 1)
-        }).subscribe(({ todayRate, yesterdayRate }) => {
-          if (todayRate && todayRate.result && yesterdayRate && yesterdayRate.result) {
-            const rateDifference = todayRate.result - yesterdayRate.result;
-  
+      const todayStr = new Date().toISOString().split('T')[0];
+      const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+      const requests = favorites.map(fav => forkJoin({
+        todayRate: this.apiService.getConvertionRate(fav.baseCurrency, fav.targetCurrency, todayStr, 1),
+        yesterdayRate: this.apiService.getConvertionRate(fav.baseCurrency, fav.targetCurrency, yesterdayStr, 1)
+      }));
+
+      forkJoin(requests).subscribe(results => {
+        results.forEach((res, index) => {
+          if (res.todayRate && res.todayRate.result && res.yesterdayRate && res.yesterdayRate.result) {
+            const rateDifference = res.todayRate.result - res.yesterdayRate.result;
             this.dashbord.push({
-              from,
-              to,
+              from: favorites[index].baseCurrency,
+              to: favorites[index].targetCurrency,
               rate: rateDifference,
               labels: this.getDaysOfMonth(),
               data: this.getCurrencyData()
             });
           }
         });
+        this.displayedDashboard = this.dashbord.slice(0, this.itemsToShow);
       });
     });
+  }
+
+  // Méthode d'affichage supplémentaire
+  showMore() {
+    this.currentItemsCount += this.itemsToShow;
+    this.displayedDashboard = this.dashbord.slice(0, this.currentItemsCount);
   }
 
   getDaysOfMonth(): string[] {
@@ -71,9 +77,13 @@ export class FavorisComponent implements OnInit {
       return parseFloat(value.toFixed(2));
     });
   }
+  // Affiche moins d'éléments
+showLess() {
+  this.currentItemsCount = Math.max(this.itemsToShow, this.currentItemsCount - this.itemsToShow);
+  this.displayedDashboard = this.dashbord.slice(0, this.currentItemsCount);
+}
 
   logout() {
     this.authService.logout();
   }
-
 }

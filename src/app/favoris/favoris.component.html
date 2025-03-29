@@ -36,7 +36,8 @@
     <table class="currency-table">
 
       <tbody>
-        <tr *ngFor="let item of dashbord">
+        <tr *ngFor="let item of displayedDashboard">
+
 
           <td data-label="De">
         <div class="favoris-table-ligne">
@@ -71,6 +72,17 @@
       </tbody>
     </table>
 
-    <button class="show-more-button">Afficher plus</button>
+
+    <button class="show-more-button" (click)="showMore()" *ngIf="displayedDashboard.length < dashbord.length">
+      Afficher plus
+    </button>
+
+    <div class="buttons-container">
+      <button class="show-less-button" (click)="showLess()" *ngIf="displayedDashboard.length > itemsToShow">
+        Afficher moins
+      </button>
+    </div>
+    
+    
   </div>
 

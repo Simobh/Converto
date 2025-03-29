@@ -29,6 +29,11 @@ export class FirestoreService {
           return throwError(() => new Error('Paire de devises invalide')); 
         }
 
+        if (baseCurrency == targetCurrency) {
+          this.alertService.showAlert('Veuillez choisir deux devises différentes', 'error');
+          return throwError(() => new Error('Veuillez choisir deux devises différentes')); 
+        }
+
         const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
         const q = query(
           userFavoritesCollection,
