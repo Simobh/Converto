@@ -237,4 +237,97 @@ app-chart {
   align-items: center;
 }
 
+.liste-style {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+}
 
+.liste-style:hover {
+  transform: scale(1.03);
+}
+
+.dropdown-container {
+  position: absolute;
+  top: 5px;
+  right: 40px;
+  padding: 10px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown[open] summary {
+  background: #ffffff10;
+}
+
+.dropdown summary {
+  list-style: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.profile-img {
+  width: 80px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.with-down-arrow {
+  display: inline-flex;
+  padding: 5px;
+  align-items: center;
+  color: #fff;
+  line-height: 1;
+}
+
+.dropdown.left ul {
+  left: auto;
+  right: 0;
+  top: 100%;
+  margin-top: 10px;
+}
+
+.dropdown ul {
+  padding: 8px 0;
+  margin: 0;
+  box-shadow: 0 0 10px #00000030;
+  min-width: 200px;
+  position: absolute;
+  border-radius: 10px;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.dropdown ul li {
+  list-style-type: none;
+  padding: 8px 16px;
+}
+
+.dropdown ul li a {
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown ul li.divider {
+  border-top: 1px solid #eee;
+  margin: 1px 0;
+}
+
+.block {
+  display: block;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+  color: #666;
+}

@@ -2,12 +2,29 @@
     <img src="assets/logo.png" alt="Logo">
   </div>
   
-  <div>
-    <button class="profile-button">
-      <img src="assets/profile.png" alt="profile">
-    </button>
+  <div class="dropdown-container">
+    <details class="dropdown left">
+      <summary>
+        <span class="with-down-arrow">
+          <img src="../../assets/profile.png" alt="Profile" class="profile-img">
+        </span>
+      </summary>
+      <ul>
+        <li>
+          <a routerLink="/favoris">
+            <i class="fas fa-solid fa-heart"></i> <span class="liste-style">Favoris</span>
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a (click)="logout()">
+            <i class="fas fa-solid fa-right-from-bracket"></i> <span class="liste-style">Déconnexion</span>
+          </a>
+        </li>
+      </ul>
+    </details>
   </div>
-  
+ 
   <div class="container">
     <h2 class="titre">Suivi des devises favorites</h2>
   

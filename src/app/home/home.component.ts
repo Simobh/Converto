@@ -114,9 +114,27 @@ export class HomeComponent  implements OnInit {
 
   addToFavorites() {
     this.fireStoreService.addFavoriteCurrency(this.baseCurrency, this.targetCurrency).subscribe(() => {
-      alert('Devise ajoutée aux favoris');
+      this.showCustomAlert('Devises ajoutées aux favoris');
     });
   }
+  
+  showCustomAlert(message: string) {
+    const alertBox = document.getElementById('custom-alert');
+    if (alertBox) {
+      alertBox.textContent = message;
+      alertBox.classList.remove('hidden');
+  
+      setTimeout(() => {
+        alertBox.classList.add('show');
+      }, 10); // Active l'animation
+  
+      setTimeout(() => {
+        alertBox.classList.remove('show');
+        setTimeout(() => alertBox.classList.add('hidden'), 300); // Cache après animation
+      }, 3000); // Disparaît après 3 secondes
+    }
+  }
+  
 
   changePeriod(days: number) {
     this.selectedPeriod = days;
