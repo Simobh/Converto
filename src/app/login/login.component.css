@@ -98,6 +98,7 @@ label, input, button, h2 {
   color: #bbbbbb;
   text-decoration: none;
   font-size: 0.9rem;
+  font-family: 'Istok Web';
 }
 
 /*  Séparateur */
@@ -110,6 +111,7 @@ label, input, button, h2 {
   max-width: 400px;
   position: relative;
   color: #bbbbbb;
+  font-family: 'Istok Web';
 }
 
 .separator::before,
@@ -127,6 +129,7 @@ label, input, button, h2 {
   position: relative;
   z-index: 1;
   font-size: 13px;
+  font-family: 'Istok Web', sans-serif;
 }
 
 /* Bouton Google */
@@ -162,11 +165,13 @@ label, input, button, h2 {
   margin-top: 1rem;
   font-size: 0.9rem;
   color: #bbbbbb;
+  font-family: 'Istok Web';
 }
 
 .signup-link a {
   color: #bbbbbb;
   text-decoration: none;
+  font-family: 'Istok Web';
 }
 
 .signup-link a:hover {

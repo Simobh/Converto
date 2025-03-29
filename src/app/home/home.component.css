@@ -78,7 +78,7 @@ body, html {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 35%;
+  width: 40%;
   min-height: 60vh;/* ✅ Ajouté pour égaliser la hauteur */
   font-family:'Istok Web';
 }
@@ -95,7 +95,7 @@ body, html {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 20%;
+  width: 25%;
   min-height: 60vh; /* ✅ Même valeur */
 }
 
@@ -159,7 +159,7 @@ input {
 }
 
 .date-input{
-  width: 46%;
+  width: 43%;
   border: 1px solid #ccc;
   border-radius: 7px;
   outline: none;
@@ -201,8 +201,9 @@ input {
 }
 
 .vente-achat {
-  margin-top: 8%;
+  margin-top: 12%;
   font-family: 'Istok Web';
+  width: 95%;
 }
 
 /* ✅ ALIGNEMENT DES PRIX */
@@ -211,6 +212,7 @@ input {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 10px;
 }
 
 .vente-achat label {
@@ -219,6 +221,7 @@ input {
   margin-left: 10px;
   width: 75%;
   font-family: 'Istok Web';
+
 }
 
 
@@ -294,6 +297,15 @@ span {
 
 .swap-icon:hover i {
   transform: rotate(180deg);
+}
+
+.liste-style {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 1rem;
+}
+
+.liste-style:hover {
+  transform: scale(1.03);
 }
 
 
