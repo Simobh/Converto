@@ -15,7 +15,6 @@
 }
 /*  Conteneur principal */
 .container {
-  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -23,7 +22,6 @@
   justify-content: center;
   height: 100vh;
   background-color: #0b1736;
-  padding: 20px;
 }
 
 /*  Labels */
