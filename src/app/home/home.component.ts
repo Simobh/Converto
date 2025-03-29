@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
+import { AlertService } from '../services/alert.service';
 import { ViewChild, ElementRef , OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 
@@ -36,7 +37,7 @@ export class HomeComponent  implements OnInit {
 
   isAuthenticated = false;
 
-  constructor(private authService: AuthService,private apiService : ApiService, private fireStoreService : FirestoreService) {
+  constructor(private authService: AuthService,private apiService : ApiService, private fireStoreService : FirestoreService, private alertService : AlertService) {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
       if (user) {
@@ -113,28 +114,9 @@ export class HomeComponent  implements OnInit {
   }
 
   addToFavorites() {
-    this.fireStoreService.addFavoriteCurrency(this.baseCurrency, this.targetCurrency).subscribe(() => {
-      this.showCustomAlert('Devises ajoutées aux favoris');
-    });
+    this.fireStoreService.addFavoriteCurrency(this.baseCurrency, this.targetCurrency).subscribe(
+      () => {});
   }
-  
-  showCustomAlert(message: string) {
-    const alertBox = document.getElementById('custom-alert');
-    if (alertBox) {
-      alertBox.textContent = message;
-      alertBox.classList.remove('hidden');
-  
-      setTimeout(() => {
-        alertBox.classList.add('show');
-      }, 10); // Active l'animation
-  
-      setTimeout(() => {
-        alertBox.classList.remove('show');
-        setTimeout(() => alertBox.classList.add('hidden'), 300); // Cache après animation
-      }, 3000); // Disparaît après 3 secondes
-    }
-  }
-  
 
   changePeriod(days: number) {
     this.selectedPeriod = days;

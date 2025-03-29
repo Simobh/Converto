@@ -1,35 +1,59 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, collectionData  } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData, query, where,  } from '@angular/fire/firestore';
 import { Auth, authState } from '@angular/fire/auth';
+import { AlertService } from './alert.service';
 import { map, switchMap } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { of, from, throwError, Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore, private auth: Auth) {}
+  constructor(private firestore: Firestore, private auth: Auth, private alertService : AlertService) {}
 
   getUserUID(): Observable<string | null> {
     return authState(this.auth).pipe(
       map(user => user ? user.uid : null)
     );
   }
-  
+
   addFavoriteCurrency(baseCurrency: string, targetCurrency: string) {
     return this.getUserUID().pipe(
       switchMap(uid => {
-        if (uid) {
-          const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
-          return addDoc(userFavoritesCollection, {
-            baseCurrency,
-            targetCurrency,
-            addedAt: new Date()
-          });
-        } else {
+        if (!uid) {
           return of(null);
         }
+        if (!baseCurrency || !targetCurrency) {
+          this.alertService.showAlert('Veuillez sélectionner une paire de devises valide', 'error');
+          return throwError(() => new Error('Paire de devises invalide')); 
+        }
+
+        const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
+        const q = query(
+          userFavoritesCollection,
+          where('baseCurrency', '==', baseCurrency),
+          where('targetCurrency', '==', targetCurrency)
+        );
+
+        return from(getDocs(q)).pipe(
+          switchMap(querySnapshot => {
+            if (!querySnapshot.empty) {
+              this.alertService.showAlert('Cette paire de devises est déjà dans vos favoris', 'error');
+              return throwError(() => new Error('Déjà dans les favoris'));
+            }
+            return from(addDoc(userFavoritesCollection, {
+              baseCurrency,
+              targetCurrency,
+              addedAt: new Date()
+            })).pipe(
+              switchMap(() => {
+                this.alertService.showAlert('Ajouté aux favoris avec succès !', 'success');
+                return of(true);
+              })
+            );
+          })
+        );
       })
     );
   }

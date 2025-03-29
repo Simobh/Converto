@@ -1,6 +1,6 @@
 
 <div class="logo">
-  <img src="assets/logo.png" alt="Logo">
+  <img src="assets/logo.png" alt="Logo" routerLink="/home">
 </div>
 
 <div *ngIf="isAuthenticated; else notAuthenticated">
@@ -12,6 +12,11 @@
         </span>
       </summary>
       <ul>
+        <li>
+          <a routerLink="/home">
+            <i class="fa-solid fa-house"></i> <span class="liste-style">Accueil</span>
+          </a>
+        </li>
         <li>
           <a routerLink="/favoris">
             <i class="fas fa-solid fa-heart"></i> <span class="liste-style">Favoris</span>
@@ -74,7 +79,7 @@
     <ng-template #notAuthenticatedForFavoris>
       <p class="non-connected-msg">Connectez-vous pour garder l’historique de vos conversions.</p>
     </ng-template>
-    <div id="custom-alert" class="hidden"></div>
+    <app-alert></app-alert>
 
   </div>
 

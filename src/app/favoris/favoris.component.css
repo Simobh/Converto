@@ -228,7 +228,7 @@ app-chart {
   display: block;
   margin: 0 auto;
   height: 80px;
-  
+
 }
 
 .favoris-table-ligne {
@@ -241,6 +241,7 @@ app-chart {
   font-family: 'Istok Web', sans-serif;
   font-size: 1rem;
   font-weight: bold;
+  padding: 10px;
 }
 
 .liste-style:hover {

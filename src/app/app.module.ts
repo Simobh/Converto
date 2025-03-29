@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChartComponent } from './chart/chart.component';
 import { FavorisComponent } from './favoris/favoris.component';
+import { AlertComponent } from './alert/alert.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FavorisComponent } from './favoris/favoris.component';
     ResetPasswordComponent,
     HomeComponent,
     ChartComponent,
-    FavorisComponent
+    FavorisComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

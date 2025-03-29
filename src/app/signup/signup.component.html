@@ -2,9 +2,9 @@
 
 <div class="container">
     <div class="logo">
-        <img src="../../assets/logo.png" alt="Logo">
+        <img src="../../assets/logo.png" alt="Logo" routerLink="/home">
     </div>
-    <div class = "signup" > 
+    <div class = "signup" >
         <h2>Créer un compte</h2>
         <label>Nom</label>
         <input type="texte" [(ngModel)]="name" />
@@ -15,6 +15,6 @@
         <label>Mot de passe</label>
         <input type="password" [(ngModel)]="password"  />
         <button (click)="signUp()">S'enregistrer</button>
-    </div>    
-   
+    </div>
+
 </div>

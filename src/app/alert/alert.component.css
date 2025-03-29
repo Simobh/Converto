@@ -1,0 +1,45 @@
+#custom-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  padding: 14px 26px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 2000;
+  font-family: 'Istok Web', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  min-width: 250px;
+  display: none;
+}
+
+/* Animation d'apparition */
+#custom-alert.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  display: block;
+}
+
+/* Styles des types d'alertes */
+.alert-success {
+  background-color: #4CAF50; /* Vert */
+  color: white;
+}
+
+.alert-error {
+  background-color: #E53935; /* Rouge */
+  color: white;
+}
+
+.alert-info {
+  background-color: #2196F3; /* Bleu */
+  color: white;
+}
+
+.alert-warning {
+  background-color: #FFC107; /* Jaune */
+  color: black;
+}

@@ -1,7 +1,7 @@
 <div class="logo">
-    <img src="assets/logo.png" alt="Logo">
+    <img src="assets/logo.png" alt="Logo" routerLink="/home">
   </div>
-  
+
   <div class="dropdown-container">
     <details class="dropdown left">
       <summary>
@@ -10,6 +10,11 @@
         </span>
       </summary>
       <ul>
+        <li>
+          <a routerLink="/home">
+            <i class="fa-solid fa-house"></i> <span class="liste-style">Accueil</span>
+          </a>
+        </li>
         <li>
           <a routerLink="/favoris">
             <i class="fas fa-solid fa-heart"></i> <span class="liste-style">Favoris</span>
@@ -24,15 +29,15 @@
       </ul>
     </details>
   </div>
- 
+
   <div class="container">
     <h2 class="titre">Suivi des devises favorites</h2>
-  
+
     <table class="currency-table">
 
       <tbody>
         <tr *ngFor="let item of dashbord">
-        
+
           <td data-label="De">
         <div class="favoris-table-ligne">
         <div>
@@ -40,7 +45,7 @@
             <span>{{ item.from }}</span>
         </div>
           <div data-label="">
-            ↔
+            <i class="fas fa-exchange-alt"></i>
           </div>
           <div data-label="Vers">
             <img [src]="'https://hatscripts.github.io/circle-flags/flags/' + item.to.toLowerCase().slice(0,2) + '.svg'" alt="{{ item.to }}">
@@ -65,7 +70,7 @@
         </tr>
       </tbody>
     </table>
-  
+
     <button class="show-more-button">Afficher plus</button>
   </div>
-  
+
