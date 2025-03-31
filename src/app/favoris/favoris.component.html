@@ -65,7 +65,10 @@
               [y_grid_display]="false"
               [show_ticks]="false">
             </app-chart>
-        </div>
+          </div>
+          <button class="delete-btn" (click)="deleteFavorite(item.id)">
+            <i class="fas fa-trash"></i>
+          </button>
     </div>
         </td>
         </tr>
@@ -82,7 +85,7 @@
         Afficher moins
       </button>
     </div>
-    
-    
+
+
   </div>
 

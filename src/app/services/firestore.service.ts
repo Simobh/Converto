@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, collectionData, query, where,  } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData, query, where, deleteDoc, doc } from '@angular/fire/firestore';
 import { Auth, authState } from '@angular/fire/auth';
 import { AlertService } from './alert.service';
 import { map, switchMap } from 'rxjs/operators';
@@ -26,12 +26,12 @@ export class FirestoreService {
         }
         if (!baseCurrency || !targetCurrency) {
           this.alertService.showAlert('Veuillez sélectionner une paire de devises valide', 'error');
-          return throwError(() => new Error('Paire de devises invalide')); 
+          return throwError(() => new Error('Paire de devises invalide'));
         }
 
         if (baseCurrency == targetCurrency) {
           this.alertService.showAlert('Veuillez choisir deux devises différentes', 'error');
-          return throwError(() => new Error('Veuillez choisir deux devises différentes')); 
+          return throwError(() => new Error('Veuillez choisir deux devises différentes'));
         }
 
         const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
@@ -70,6 +70,22 @@ export class FirestoreService {
 
         const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
         return collectionData(userFavoritesCollection, { idField: 'id' }); // Retourne les données Firestore avec l'ID
+      })
+    );
+  }
+  deleteFavorite(favoriteId: string) {
+    return this.getUserUID().pipe(
+      switchMap(uid => {
+        if (!uid) {
+          return throwError(() => new Error('User not authenticated'));
+        }
+        const favoriteDoc = doc(this.firestore, `users/${uid}/favorites/${favoriteId}`);
+        return from(deleteDoc(favoriteDoc)).pipe(
+          map(() => {
+            this.alertService.showAlert('Favori supprimé avec succès', 'success');
+            return true;
+          })
+        );
       })
     );
   }

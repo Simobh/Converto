@@ -12,7 +12,7 @@ import { forkJoin } from 'rxjs';
 export class FavorisComponent implements OnInit {
   isAuthenticated = false;
   favoris: any[] = [];
-  dashbord: {from: string, to: string, rate: number, labels: string[], data: number[]}[] = [];
+  dashbord: {id: string, from: string, to: string, rate: number, labels: string[], data: number[]}[] = [];
 
   displayedDashboard: any[] = [];  // Tableau pour l'affichage progressif
   itemsToShow: number = 5;         // Affiche 5 éléments par défaut
@@ -33,6 +33,9 @@ export class FavorisComponent implements OnInit {
   }
 
   loadFavorites() {
+    this.dashbord = [];
+    this.displayedDashboard = [];
+
     this.fireStoreService.getUserFavorites().subscribe(favorites => {
       const todayStr = new Date().toISOString().split('T')[0];
       const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split('T')[0];
@@ -44,21 +47,33 @@ export class FavorisComponent implements OnInit {
 
       forkJoin(requests).subscribe(results => {
         results.forEach((res, index) => {
-          if (res.todayRate && res.todayRate.result && res.yesterdayRate && res.yesterdayRate.result) {
+          if (res.todayRate?.result && res.yesterdayRate?.result) {
             const rateDifference = res.todayRate.result - res.yesterdayRate.result;
-            this.dashbord.push({
-              from: favorites[index].baseCurrency,
-              to: favorites[index].targetCurrency,
-              rate: rateDifference,
-              labels: this.getDaysOfMonth(),
-              data: this.getCurrencyData()
-            });
+
+            // Vérifier si la devise existe déjà dans this.dashbord
+            const alreadyExists = this.dashbord.some(item =>
+              item.from === favorites[index].baseCurrency &&
+              item.to === favorites[index].targetCurrency
+            );
+
+            if (!alreadyExists) {
+              this.dashbord.push({
+                id: favorites[index].id,
+                from: favorites[index].baseCurrency,
+                to: favorites[index].targetCurrency,
+                rate: rateDifference,
+                labels: this.getDaysOfMonth(),
+                data: this.getCurrencyData()
+              });
+            }
           }
         });
+
         this.displayedDashboard = this.dashbord.slice(0, this.itemsToShow);
       });
     });
   }
+
 
   // Méthode d'affichage supplémentaire
   showMore() {
@@ -78,12 +93,23 @@ export class FavorisComponent implements OnInit {
     });
   }
   // Affiche moins d'éléments
-showLess() {
-  this.currentItemsCount = Math.max(this.itemsToShow, this.currentItemsCount - this.itemsToShow);
-  this.displayedDashboard = this.dashbord.slice(0, this.currentItemsCount);
-}
+  showLess() {
+    this.currentItemsCount = Math.max(this.itemsToShow, this.currentItemsCount - this.itemsToShow);
+    this.displayedDashboard = this.dashbord.slice(0, this.currentItemsCount);
+  }
 
   logout() {
     this.authService.logout();
+  }
+
+  deleteFavorite(favoriteId: string) {
+    this.fireStoreService.deleteFavorite(favoriteId).subscribe({
+      next: () => {
+        this.loadFavorites();
+      },
+      error: (error) => {
+        console.error('Error deleting favorite:', error);
+      }
+    });
   }
 }
