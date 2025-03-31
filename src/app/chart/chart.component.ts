@@ -47,6 +47,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
             data: this.data,
             borderColor: this.borderColor,
             backgroundColor: this.backgroundColor,
+            pointRadius: 0,
             fill: true,
             tension: 0.3
           }

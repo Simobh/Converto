@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
@@ -72,8 +73,7 @@ export class HomeComponent  implements OnInit {
       });
 
       if(this.baseCurrency && this.targetCurrency){
-        this.labels = this.getDaysOfMonth();
-        this.data = this.getCurrencyData();
+        this.getHistoricalData();
 
         this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, this.date, 1).subscribe(data => {
           if (data && data.info.rate) {
@@ -105,11 +105,23 @@ export class HomeComponent  implements OnInit {
     return days;
   }
 
-  getCurrencyData(): number[] {
-    let value = 100;
-    return Array.from({ length: 30 }, () => {
-      value += (Math.random() - 0.5) * 5;
-      return parseFloat(value.toFixed(2));
+  getHistoricalData() {
+    const dates = [];
+    const endDate = new Date();
+
+    for (let i = 0; i < this.selectedPeriod; i++) {
+      const date = new Date(endDate);
+      date.setDate(endDate.getDate() - i);
+      dates.unshift(date.toISOString().split('T')[0]);
+    }
+
+    const requests = dates.map(date =>
+      this.apiService.getConvertionRate(this.baseCurrency, this.targetCurrency, date, 1)
+    );
+
+    forkJoin(requests).subscribe(results => {
+      this.data = results.map(result => result?.result || 0);
+      this.labels = this.getDaysOfMonth();
     });
   }
 
@@ -121,8 +133,7 @@ export class HomeComponent  implements OnInit {
   changePeriod(days: number) {
     this.selectedPeriod = days;
     if(this.baseCurrency && this.targetCurrency) {
-      this.labels = this.getDaysOfMonth();
-      this.data = this.getCurrencyData();
+      this.getHistoricalData();
     }
   }
 
@@ -140,4 +151,3 @@ export class HomeComponent  implements OnInit {
   }
 
 }
-
