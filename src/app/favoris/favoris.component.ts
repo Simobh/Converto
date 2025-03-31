@@ -37,40 +37,68 @@ export class FavorisComponent implements OnInit {
     this.displayedDashboard = [];
 
     this.fireStoreService.getUserFavorites().subscribe(favorites => {
+      if (!favorites || favorites.length === 0) return;
+
       const todayStr = new Date().toISOString().split('T')[0];
       const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
-      const requests = favorites.map(fav => forkJoin({
-        todayRate: this.apiService.getConvertionRate(fav.baseCurrency, fav.targetCurrency, todayStr, 1),
-        yesterdayRate: this.apiService.getConvertionRate(fav.baseCurrency, fav.targetCurrency, yesterdayStr, 1)
-      }));
+      const requests = favorites.map(fav =>
+        forkJoin({
+          todayRate: this.apiService.getConvertionRate(fav.baseCurrency, fav.targetCurrency, todayStr, 1),
+          yesterdayRate: this.apiService.getConvertionRate(fav.baseCurrency, fav.targetCurrency, yesterdayStr, 1)
+        })
+      );
 
       forkJoin(requests).subscribe(results => {
         results.forEach((res, index) => {
           if (res.todayRate?.result && res.yesterdayRate?.result) {
             const rateDifference = res.todayRate.result - res.yesterdayRate.result;
 
-            // Vérifier si la devise existe déjà dans this.dashbord
+            const favorite = favorites[index];
             const alreadyExists = this.dashbord.some(item =>
-              item.from === favorites[index].baseCurrency &&
-              item.to === favorites[index].targetCurrency
+              item.from === favorite.baseCurrency && item.to === favorite.targetCurrency
             );
 
             if (!alreadyExists) {
               this.dashbord.push({
-                id: favorites[index].id,
-                from: favorites[index].baseCurrency,
-                to: favorites[index].targetCurrency,
+                id: favorite.id,
+                from: favorite.baseCurrency,
+                to: favorite.targetCurrency,
                 rate: rateDifference,
                 labels: this.getDaysOfMonth(),
-                data: this.getCurrencyData()
+                data: [] // Initialisation vide, sera rempli après
               });
             }
           }
         });
 
         this.displayedDashboard = this.dashbord.slice(0, this.itemsToShow);
+
+        // Chargement des données historiques après la mise à jour du dashboard
+        this.dashbord.forEach(item => {
+          this.getHistoricalData(item);
+        });
       });
+    });
+  }
+
+  getHistoricalData(item: { id: string, from: string, to: string, rate: number, labels: string[], data: number[] }) {
+    const dates = [];
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(endDate.getMonth() - 1); // Fixer à un mois en arrière
+
+    while (startDate <= endDate) {
+      dates.push(startDate.toISOString().split('T')[0]);
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    const requests = dates.map(date =>
+      this.apiService.getConvertionRate(item.from, item.to, date, 1)
+    );
+
+    forkJoin(requests).subscribe(results => {
+      item.data = results.map(result => result?.result || 0);
     });
   }
 
