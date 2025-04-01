@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,19 @@ export class ApiService {
     });
 
     return this.http.get(`${this.apiUrl}/convert?from=${from}&to=${to}&date=${date}&amount=${amount}&format=json`, { headers });
+  }
+
+  getCountries(): Observable<{ currency: string; country: string }[]> {
+    const jsonUrl  = "../../assets/pays.json"
+    return this.http.get<{ [key: string]: string }>(jsonUrl).pipe(
+      map(currencyObject => {
+        // Transformer l'objet en tableau
+        return Object.keys(currencyObject).map(key => ({
+          currency: key,
+          country: currencyObject[key]
+        }));
+      })
+    );
   }
 
 }
