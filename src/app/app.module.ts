@@ -17,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChartComponent } from './chart/chart.component';
 import { FavorisComponent } from './favoris/favoris.component';
 import { AlertComponent } from './alert/alert.component';
+import { TravelComponent } from './travel/travel.component';
+import { BudgetComponent } from './budget/budget.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { AlertComponent } from './alert/alert.component';
     HomeComponent,
     ChartComponent,
     FavorisComponent,
-    AlertComponent
+    AlertComponent,
+    TravelComponent,
+    BudgetComponent
   ],
   imports: [
     BrowserModule,

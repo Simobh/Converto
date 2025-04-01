@@ -7,6 +7,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { FavorisComponent } from './favoris/favoris.component';
+import { BudgetComponent } from './budget/budget.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'dashboard', component: DashboardComponent , canActivate: [AuthGuard]},
   { path: 'favoris', component: FavorisComponent , canActivate: [AuthGuard]},
+  { path: 'budget', component: BudgetComponent , canActivate: [AuthGuard]},
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', redirectTo: '/login' }
 ];

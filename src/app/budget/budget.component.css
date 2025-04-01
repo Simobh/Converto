@@ -1,0 +1,92 @@
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    width: 50px;
+}
+.user-icon {
+    font-size: 24px;
+}
+.currency-destination {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.currency-destination input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 5px;
+    font-size: 16px;
+}
+.currency-destination i {
+    font-size: 20px;
+    margin: 0 10px;
+}
+.content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.budget-box, .expenses-box {
+    width: 45%;
+    background: white;
+    color: black;
+    padding: 15px;
+    border-radius: 5px;
+}
+.budget-box input, .expenses-box input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.expense {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.expense input {
+    flex: 1;
+    margin: 0 5px;
+}
+.delete {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.add {
+    background: blue;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+@media (max-width: 600px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .budget-box, .expenses-box {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
