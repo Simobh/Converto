@@ -1,34 +1,75 @@
-<div class="container">
-    <header>
-        <img src="assets/logo.png" alt="Converto Logo" class="logo">
-        <h1>Estimate your travel budget</h1>
-        <i class="fas fa-user-circle user-icon"></i>
-    </header>
-    <section class="currency-destination">
-        <input type="text" placeholder="Your currency">
-        <i class="fas fa-plane"></i>
-        <input type="text" placeholder="Your destination">
-    </section>
-    <div class="content">
-        <div class="budget-box">
-            <input type="text" placeholder="Your budget">
-            <p>Total :</p>
-        </div>
-        <div class="expenses-box">
-            <div id="expenses-container">
-                <div class="expense" *ngFor="let expense of expenses; let i = index">
-                    <input type="text" placeholder="Type your expense">
-                    <input type="number" placeholder="Cost">
-                    <i class="fas fa-exchange-alt"></i>
-                    <input type="number" placeholder="Cost2">
-                    <button class="delete" (click)="removeExpense(i)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-            <button class="add" (click)="addExpense()">
-                <i class="fas fa-plus"></i>
-            </button>
-        </div>
+<div class="logo">
+    <img src="assets/logo.png" alt="Logo" routerLink="/home">
+  </div>
+
+  <div class="dropdown-container">
+    <details class="dropdown left">
+      <summary>
+        <span class="with-down-arrow">
+          <img src="../../assets/profile.png" alt="Profile" class="profile-img">
+        </span>
+      </summary>
+      <ul>
+        <li>
+          <a routerLink="/home">
+            <i class="fa-solid fa-house"></i> <span class="liste-style">Accueil</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/favoris">
+            <i class="fas fa-solid fa-heart"></i> <span class="liste-style">Favoris</span>
+          </a>
+        </li>
+        <li>
+            <a routerLink="/budget">
+                <i class="fa-brands fa-avianex"></i><span class="liste-style">Voyage</span>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a (click)="logout()">
+            <i class="fas fa-solid fa-right-from-bracket"></i> <span class="liste-style">Déconnexion</span>
+          </a>
+        </li>
+      </ul>
+    </details>
+  </div>
+
+<div class="page-container">
+    <h2>Estimate your travel budget</h2>
+  
+    <div class="input-row">
+      <input placeholder="Your currency" [(ngModel)]="currency">
+      <span class="arrow">⇄</span>
+      <input placeholder="Destination" [(ngModel)]="destination">
+      <input type="date" [(ngModel)]="departureDate" placeholder="Date de départ">
+      <input type="date" [(ngModel)]="returnDate" placeholder="Date de retour">
     </div>
-</div>
+  
+    <div class="main-cards">
+      <div class="left-card">
+        <input type="number" [(ngModel)]="budget" placeholder="Entrer votre budget">
+  
+        <p>Nombre de jours : <strong>{{ days }} jours</strong></p>
+        <p *ngIf="dailyBudget !== null">
+          Budget quotidien estimé : {{ dailyBudget | number:'1.0-2' }} €/jour
+        </p>
+  
+        <p class="total">Total : <strong>{{ total }} €</strong></p>
+      </div>
+  
+      <div class="right-card">
+        <div *ngFor="let exp of expenses; let i = index" class="expense-row">
+          <input placeholder="Type your depense" [(ngModel)]="exp.description">
+          <input type="number" placeholder="Cost" [(ngModel)]="exp.cost" (change)="convertCost(exp)">
+          <span class="arrow">⇄</span>
+          <input placeholder="Cost2" [value]="exp.convertedCost | number:'1.0-2'" readonly>
+  
+          <button class="delete" (click)="removeExpense(i)">🗑️</button>
+        </div>
+  
+        <button class="add-btn" (click)="addExpense()">➕</button>
+      </div>
+    </div>
+  </div>
+  
