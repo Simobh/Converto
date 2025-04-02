@@ -145,6 +145,10 @@ export class BudgetComponent implements OnInit {
 
 
   get total(): number {
+    return this.expenses.reduce((sum, exp) => sum + (exp.cost || 0), 0);
+  }
+
+  get totalConverted(): number {
     return this.expenses.reduce((sum, exp) => sum + (exp.convertedCost || 0), 0);
   }
 
@@ -175,7 +179,7 @@ export class BudgetComponent implements OnInit {
 
   convertCost(expense: Expense) {
     if (expense.cost && this.currency  && this.destination) {
-      this.apiService.getConvertionRate(this.destination, this.currency, this.currentDate, expense.cost).subscribe(data => {
+      this.apiService.getConvertionRate(this.currency, this.destination, this.currentDate, expense.cost).subscribe(data => {
         if (data && data.result) {
           expense.convertedCost = data.result;
         }
@@ -189,8 +193,8 @@ export class BudgetComponent implements OnInit {
       // Convertit seulement si le coût de base existe
       if (expense.cost && expense.cost > 0) {
         this.apiService.getConvertionRate(
-          this.destination,
           this.currency,
+          this.destination,
           this.currentDate,
           expense.cost
         ).subscribe({

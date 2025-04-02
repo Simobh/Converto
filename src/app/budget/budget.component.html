@@ -39,7 +39,7 @@
 
 <div class="page-container">
 
-    <!-- ✅ Message d’erreur uniquement si l’utilisateur interagit sans remplir les champs requis -->
+    <!-- Message d’erreur uniquement si l’utilisateur interagit sans remplir les champs requis -->
     <div *ngIf="showErrorMessage && !isFormComplete()" class="error-message">
       ⚠️ Veuillez d'abord sélectionner une devise, une destination et une plage de dates
     </div>
@@ -92,8 +92,8 @@
                 <span class="currency-label">{{currency}}</span>
             </div>
 
-            <h3>Nombre de jours</h3>
-            <div class="input-group">
+            <h3 *ngIf="days" >Nombre de jours</h3>
+            <div *ngIf="days" class="input-group">
                 <input type="number" [value]="days" readonly>
                 <span class="currency-label">jours</span>
             </div>
@@ -105,10 +105,14 @@
             </div>
 
             <h3>Total des dépenses</h3>
-            <div class="input-group">
+            <div class="input-group total-input">
                 <input type="text" [value]="total | number:'1.0-2'" readonly>
                 <span class="currency-label">{{currency}}</span>
             </div>
+            <div class="input-group total-input">
+              <input type="text" [value]="totalConverted | number:'1.0-2'" readonly>
+              <span class="currency-label">{{destination}}</span>
+          </div>
         </div>
 
         <div class="right-card">
@@ -131,10 +135,9 @@
 
                 <span class="arrow">→</span>
 
-
                 <input [value]="exp.convertedCost | number:'1.0-2'" readonly placeholder="Coût converti" class="converted-cost">
 
-                <button class="delete" (click)="removeExpense(i)">-</button>
+                <button class="delete" (click)="removeExpense(i)"></button>
             </div>
 
             <button class="add-btn" (click)="addExpense()">+</button>
