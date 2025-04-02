@@ -1,95 +1,114 @@
 <div class="logo">
-    <img src="assets/logo.png" alt="Logo" routerLink="/home">
-  </div>
+  <img src="assets/logo.png" alt="Logo" routerLink="/home">
+</div>
 
-  <h2 class="titre">Estimate your travel budget</h2>
+<h2 class="titre">Estimate your travel budget</h2>
 
-  <div class="dropdown-container">
-    <details class="dropdown left">
+<div class="dropdown-container">
+  <details class="dropdown left">
       <summary>
-        <span class="with-down-arrow">
-          <img src="../../assets/profile.png" alt="Profile" class="profile-img">
-        </span>
+          <span class="with-down-arrow">
+              <img src="../../assets/profile.png" alt="Profile" class="profile-img">
+          </span>
       </summary>
       <ul>
-        <li>
-          <a routerLink="/home">
-            <i class="fa-solid fa-house"></i> <span class="liste-style">Accueil</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/favoris">
-            <i class="fas fa-solid fa-heart"></i> <span class="liste-style">Favoris</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/budget">
-              <i class="fa-brands fa-avianex"></i><span class="liste-style">Voyage</span>
-          </a>
-      </li>
-        <li class="divider"></li>
-        <li>
-          <a (click)="logout()">
-            <i class="fas fa-solid fa-right-from-bracket"></i> <span class="liste-style">Déconnexion</span>
-          </a>
-        </li>
+          <li>
+              <a routerLink="/home">
+                  <i class="fa-solid fa-house"></i> <span class="liste-style">Accueil</span>
+              </a>
+          </li>
+          <li>
+              <a routerLink="/favoris">
+                  <i class="fas fa-solid fa-heart"></i> <span class="liste-style">Favoris</span>
+              </a>
+          </li>
+          <li>
+              <a routerLink="/budget">
+                  <i class="fa-brands fa-avianex"></i><span class="liste-style">Voyage</span>
+              </a>
+          </li>
+          <li class="divider"></li>
+          <li>
+              <a (click)="logout()">
+                  <i class="fas fa-solid fa-right-from-bracket"></i> <span class="liste-style">Déconnexion</span>
+              </a>
+          </li>
       </ul>
-    </details>
-  </div>
+  </details>
+</div>
 
 <div class="page-container">
+  <div class="input-row">
+      <div class="currency-select-img">
+          <img *ngIf="imageUrl" [src]="imageUrl" class="img-currency">
+          <select [(ngModel)]="currency" (change)="setCurrencyImage(); convertAllCosts()">
+              <option value="" disabled selected>Votre devise</option>
+              <option *ngFor="let currency of currencies" [value]="currency">
+                  {{ currency }}
+              </option>
+          </select>
+      </div>
 
-    <div class="input-row">
-        <div class="currency-select-img">
-            <img *ngIf="imageUrl" [src]="imageUrl" class="img-currency">
-            <select [(ngModel)]="currency" (change)="setCurrencyImage(); convertAllCosts()" placeholder="Votre devise">
-                <option *ngFor="let currency of currencies" [value]="currency">
-                    {{ currency }}
-                </option>
-            </select>
-        </div>
+      <img [src]="'../../assets/fleche.png'" class="img-convert">
 
-        <img  [src]="'../../assets/fleche.png'" class="img-convert">
-
-        <div class="currency-select-img">
-            <img *ngIf="flagUrl" [src]="flagUrl" class="img-currency">
-            <select [(ngModel)]="destination" (change)="setCountryImage(); convertAllCosts()" placeholder="Votre destination">
-                <option *ngFor="let country of countries" [value]="country.currency">
-                    {{ country.country }}
-                </option>
-            </select>
-        </div>
-        <div class="input-date">
-        <input class="date-input" type="date" [(ngModel)]="departureDate" placeholder="Date de départ" [min]="currentDate">
-        </div>
-        <div class="input-date">
-        <input class="date-input" type="date" [(ngModel)]="returnDate" placeholder="Date de retour" [min]="departureDate">
+      <div class="currency-select-img">
+          <img *ngIf="flagUrl" [src]="flagUrl" class="img-currency">
+          <select [(ngModel)]="destination" (change)="setCountryImage(); convertAllCosts()">
+              <option value="" disabled selected>Votre destination</option>
+              <option *ngFor="let country of countries" [value]="country.currency">
+                  {{ country.country }}
+              </option>
+          </select>
+      </div>
+      
+      <div class="input-date">
+        <label class="date-label">Du</label>
+        <input type="date" [(ngModel)]="departureDate" [min]="currentDate" [max]="returnDate" (change)="setPeriod()" >
     </div>
-    </div>
+      
+      <div class="input-date">
+        <label class="date-label">Jusqu'au</label>
+          <input type="date" [(ngModel)]="returnDate" [min]="setMinDate()" placeholder="Date de retour" (change)="setPeriod()">
+      </div>
+  </div>
 
-    <div class="main-cards">
-    
-        <div class="left-card">
-            <h3>Votre budget</h3>
-            <input type="number" [(ngModel)]="budget" placeholder="Entrer votre budget"> <label>{{currency}}</label>
-            <h3>nombre de jours</h3>
-            <input *ngIf="days" type="number" [value]="days" readonly>  <label>jours</label>
-            <h3 *ngIf="dailyBudget">Budget quotidien estimés</h3>
-            <input *ngIf="dailyBudget" type="number" [value]="dailyBudget" readonly>  <label>{{currency}}</label>
-            <h3>Total</h3>
-            <input type="number" [value]="total" readonly>  <label>{{currency}}</label>
-        </div>
+  <div class="main-cards">
+      <div class="left-card">
+          <h3>Votre budget</h3>
+          <div class="input-group">
+              <input type="number" [(ngModel)]="budget" placeholder="Entrer votre budget">
+              <span class="currency-label">{{currency}}</span>
+          </div>
+          
+          <h3>Nombre de jours</h3>
+          <div class="input-group">
+              <input type="number" [value]="days" readonly>
+              <span class="currency-label">jours</span>
+          </div>
+          
+          <h3 *ngIf="dailyBudget">Budget quotidien estimé</h3>
+          <div *ngIf="dailyBudget" class="input-group">
+              <input type="number" [value]="dailyBudget" readonly>
+              <span class="currency-label">{{currency}}</span>
+          </div>
+          
+          <h3>Total</h3>
+          <div class="input-group">
+              <input type="number" [value]="total" readonly>
+              <span class="currency-label">{{currency}}</span>
+          </div>
+      </div>
 
-        <div class="right-card">
-            <h3>Vos estimations des depenses</h3>
-            <div *ngFor="let exp of expenses; let i = index" class="expense-row">
-                <input placeholder="votre type de depense" [(ngModel)]="exp.description" class="type-expense">
-                <input type="number" placeholder="estimez le cout local" [(ngModel)]="exp.cost" (change)="convertCost(exp)">
-                <span class="arrow">⇄</span>
-                <input placeholder="cout a votre devise" [value]="exp.convertedCost | number:'1.0-2'" readonly>
-                <button class="delete" (click)="removeExpense(i)">-</button>
-            </div>
-            <button class="add-btn" (click)="addExpense()">+</button>
-        </div>
-    </div>
+      <div class="right-card">
+          <h3>Vos estimations des dépenses</h3>
+          <div *ngFor="let exp of expenses; let i = index" class="expense-row">
+              <input [(ngModel)]="exp.description" placeholder="Type de dépense" class="type-expense">
+              <input type="number" [(ngModel)]="exp.cost" (change)="convertCost(exp)" placeholder="Coût local" class="estimated-cost">
+              <span class="arrow">⇄</span>
+              <input [value]="exp.convertedCost | number:'1.0-2'" readonly placeholder="Coût converti" class="converted-cost">
+              <button class="delete" (click)="removeExpense(i)">-</button>
+          </div>
+          <button class="add-btn" (click)="addExpense()">+</button>
+      </div>
+  </div>
 </div>

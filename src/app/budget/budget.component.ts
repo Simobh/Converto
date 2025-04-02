@@ -25,9 +25,9 @@ export class BudgetComponent implements OnInit {
   imageUrl !: string;
   flagUrl !: string;
   currentDate : string = new Date().toISOString().split('T')[0];
-  departureDate: string = this.currentDate;
+  departureDate: string = '';
   budget: number | null = null;
-  days: number = 4;
+  days !: number ;
   isAuthenticated = false;
 
   expenses: Expense[] = [
@@ -61,8 +61,21 @@ export class BudgetComponent implements OnInit {
     this.flagUrl =`../../assets/flags/ic_flag_${this.destination.toLowerCase()}.png`
   }
 
+  setMinDate(){
+    return (this.departureDate) ? this.departureDate : this.currentDate;
+  }
+
   get dailyBudget(): number | null {
     return this.budget && this.days ? this.budget / this.days : null;
+  }
+
+  setPeriod(){
+    if(this.departureDate && this.returnDate){
+      var date1 = new Date(this.departureDate);
+      var date2 = new Date(this.returnDate);
+      var differenceInTime = date2.getTime() - date1.getTime();
+      this.days = differenceInTime / (1000 * 3600 * 24) + 1;
+    }
   }
 
   addExpense() {
@@ -71,6 +84,7 @@ export class BudgetComponent implements OnInit {
 
   removeExpense(index: number) {
     this.expenses.splice(index, 1);
+    if(this.expenses.length < 1) this.addExpense();
   }
 
 

@@ -126,7 +126,6 @@ input, select {
   display: flex;
   justify-content: center;
   margin-block: 20px;
-
 }
 
 .left-card {
@@ -154,10 +153,12 @@ input, select {
   display: flex;
   justify-content: space-around;
   gap: 10px;
+  margin-block: 12px;
 }
 
 .expense-row .type-expense {
   width: 40%;
+  border: 2px solid #1ca1d6;
 }
 
 .arrow {
@@ -262,3 +263,30 @@ input, select {
   margin: 1px 0;
 }
 
+.converted-cost {
+  background-color: #e7e7e7;
+}
+
+.estimated-cost {
+  border: 2px solid #05c1fa;
+}
+
+/* Style pour le label */
+.date-label {
+  width: 50%;
+  display: block;
+  font-weight: bold;
+  margin-inline: auto;
+  color: #000000;
+  font-size: 1rem;
+  margin-block: 12px;
+}
+
+/* Style pour l'input date */
+.input-date input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  font-size: 1rem;
+}
