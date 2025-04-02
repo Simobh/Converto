@@ -13,6 +13,7 @@ import {
 import { signInWithPopup } from '@firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
   private userState = new BehaviorSubject<User | null>(null);
   user$ = this.userState.asObservable();
 
-  constructor(private auth: Auth, private router: Router) {
+  constructor(private auth: Auth, private router: Router, private alertService : AlertService) {
     onAuthStateChanged(this.auth, (user) => {
       this.userState.next(user);
     });
@@ -37,8 +38,12 @@ export class AuthService {
           })
           .catch(error => console.error("Erreur d'envoi du mail:", error.message));
       })
-      .catch((error) => {
-        alert("Erreur d'inscription: " + error.message);
+      .catch((error) =>  {
+        if (error.code === 'auth/email-already-in-use') {
+          this.alertService.showAlert('Cette adresse email est déjà utilisée', 'error');
+        } else {
+          this.alertService.showAlert('Une erreur est survenue lors de l\'inscription', 'error');
+        }
       });
   }
 
