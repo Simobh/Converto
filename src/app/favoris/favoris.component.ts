@@ -61,7 +61,7 @@ export class FavorisComponent implements OnInit {
 
             if (!alreadyExists) {
               this.dashbord.push({
-                id: favorite.id,
+                id: favorite.id || 'unknown-id',
                 from: favorite.baseCurrency,
                 to: favorite.targetCurrency,
                 rate: rateDifference,

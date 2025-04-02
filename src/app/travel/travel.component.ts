@@ -1,8 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-travel',
@@ -12,11 +14,13 @@ import { FirestoreService } from '../services/firestore.service';
 export class TravelComponent implements OnInit {
   isAuthenticated = false;
   destinations: any[] = [];
+  destinationsSended: any[] = [];
 
   constructor(
     private authService: AuthService,
     private fireStoreService: FirestoreService,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ) {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
@@ -28,8 +32,15 @@ export class TravelComponent implements OnInit {
   }
 
   loadDestinations() {
-    this.fireStoreService.getUserTravale().subscribe(destinations => {
+    this.fireStoreService.getUserTravels().subscribe(destinations => {
+      this.destinationsSended = destinations;
       this.destinations = destinations;
+      this.apiService.getCountries().subscribe(countries => {
+        this.destinations = this.destinations.map(dest => ({
+          ...dest,
+          destination: countries.find(c => c.currency === dest.destination)?.country || dest.destination
+        }));
+      });
     });
   }
 
@@ -232,17 +243,20 @@ export class TravelComponent implements OnInit {
     return countryMap[countryName.toLowerCase()] || countryName.toLowerCase().slice(0, 2);
   }
 
+
   navigateToBudget(destination?: any) {
     if (destination) {
-      this.router.navigate(['/budget'], {
-        queryParams: {
-          currency: destination.currency,
-          destination: destination.destination,
-          departureDate: destination.departureDate,
-          returnDate: destination.returnDate,
-          budget: destination.budget,
-          expenses: JSON.stringify(destination.expenses)
-        }
+      this.apiService.getCurrencyFromCountry(destination.destination).subscribe(currency => {
+        this.router.navigate(['/budget'], {
+          queryParams: {
+            currency: destination.currency,
+            destination: currency,
+            departureDate: destination.departureDate,
+            returnDate: destination.returnDate,
+            budget: destination.budget,
+            expenses: JSON.stringify(destination.expenses)
+          }
+        });
       });
     } else {
       this.router.navigate(['/budget']);

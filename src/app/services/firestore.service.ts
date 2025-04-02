@@ -5,6 +5,10 @@ import { AlertService } from './alert.service';
 import { map, switchMap } from 'rxjs/operators';
 import { of, from, throwError, Observable } from 'rxjs';
 
+import { Travel } from '../models/travel.model';
+import { Expense } from '../models/expense.model';
+import { Favorite } from '../models/favorite.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -47,11 +51,12 @@ export class FirestoreService {
               this.alertService.showAlert('Cette paire de devises est déjà dans vos favoris', 'error');
               return throwError(() => new Error('Déjà dans les favoris'));
             }
-            return from(addDoc(userFavoritesCollection, {
+            const newFavorite: Favorite = {
               baseCurrency,
               targetCurrency,
               addedAt: new Date()
-            })).pipe(
+            };
+            return from(addDoc(userFavoritesCollection,newFavorite)).pipe(
               switchMap(() => {
                 this.alertService.showAlert('Ajouté aux favoris avec succès !', 'success');
                 return of(true);
@@ -63,18 +68,18 @@ export class FirestoreService {
     );
   }
 
-  getUserFavorites(): Observable<any[]> {
+  getUserFavorites(): Observable<Favorite[]> {
     return this.getUserUID().pipe(
       switchMap(uid => {
-        if (!uid) return of([]); // Si l'utilisateur n'est pas connecté, on retourne une liste vide
+        if (!uid) return of([]);
 
         const userFavoritesCollection = collection(this.firestore, `users/${uid}/favorites`);
-        return collectionData(userFavoritesCollection, { idField: 'id' }); // Retourne les données Firestore avec l'ID
+        return collectionData(userFavoritesCollection, { idField: 'id' }) as Observable<Favorite[]>;
       })
     );
   }
 
-  getUserTravale(): Observable<any[]> {
+  /*getUserTravale(): Observable<any[]> {
     return this.getUserUID().pipe(
       switchMap(uid => {
         if (!uid) return of([]); // Si l'utilisateur n'est pas connecté, on retourne une liste vide
@@ -83,7 +88,7 @@ export class FirestoreService {
         return collectionData(userTravelsCollection, { idField: 'id' }); // Retourne les données Firestore avec l'ID
       })
     );
-  }
+  }*/
 
   deleteFavorite(favoriteId: string) {
     return this.getUserUID().pipe(
@@ -111,5 +116,35 @@ export class FirestoreService {
   async getUsers() {
     const querySnapshot = await getDocs(collection(this.firestore, 'users'));
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
+
+  saveTravel(travelData: Travel) {
+    return this.getUserUID().pipe(
+      switchMap(uid => {
+        if (!uid) {
+          return throwError(() => new Error('User not authenticated'));
+        }
+        const travelCollection = collection(this.firestore, `users/${uid}/travels`);
+        return from(addDoc(travelCollection, {
+          ...travelData,
+          createdAt: new Date()
+        })).pipe(
+          map(() => {
+            this.alertService.showAlert('Votre voyage a été sauvegardé avec succès', 'success');
+            return true;
+          })
+        );
+      })
+    );
+  }
+
+  getUserTravels(): Observable<Travel[]> {
+    return this.getUserUID().pipe(
+      switchMap(uid => {
+        if (!uid) return of([]);
+        const travelCollection = collection(this.firestore, `users/${uid}/travels`);
+        return collectionData(travelCollection, { idField: 'id' }) as Observable<Travel[]>;
+      })
+    );
   }
 }

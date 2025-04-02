@@ -39,4 +39,13 @@ export class ApiService {
     );
   }
 
+  getCurrencyFromCountry(countryName: string): Observable<string> {
+    return this.http.get<{ [key: string]: string }>("../../assets/pays.json").pipe(
+      map(currencyObject => {
+        const entry = Object.entries(currencyObject).find(([_, country]) => country === countryName);
+        return entry ? entry[0] : '';
+      })
+    );
+  }
+
 }

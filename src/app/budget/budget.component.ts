@@ -3,13 +3,10 @@ import { ApiService } from '../services/api.service';
 import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
 import { AlertService } from '../services/alert.service';
+import { ActivatedRoute } from '@angular/router';
 
-
-interface Expense {
-  description: string;
-  cost: number | null;
-  convertedCost: number | null;
-}
+import { Expense } from '../models/expense.model';
+import { Travel } from '../models/travel.model';
 
 @Component({
   selector: 'app-budget',
@@ -34,11 +31,12 @@ export class BudgetComponent implements OnInit {
     { description: '', cost: null, convertedCost: null }
   ];
 
+
   showErrorMessage: boolean = false;
 
   blockTypingIfFormIncomplete(event: KeyboardEvent) {
     if (!this.isFormComplete()) {
-      event.preventDefault(); // bloque la saisie
+      event.preventDefault();
       this.showErrorMessage = true;
     }
   }
@@ -46,14 +44,12 @@ export class BudgetComponent implements OnInit {
   isFormComplete(): boolean {
     return !!(this.currency && this.destination && this.departureDate && this.returnDate);
   }
-  
+
   triggerErrorIfFormIncomplete() {
     if (!this.isFormComplete()) {
       this.showErrorMessage = true;
     }
   }
-  
-  
 
   ngOnInit() {
     this.apiService.getAllCurrencies().subscribe(data => {
@@ -62,17 +58,50 @@ export class BudgetComponent implements OnInit {
     this.apiService.getCountries().subscribe(data => {
       this.countries = data;
     });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['currency']) {
+        this.currency = params['currency'];
+        this.setCurrencyImage();
+      }
+      if (params['destination']) {
+        this.destination = params['destination'];
+        this.setCountryImage();
+      }
+      if (params['departureDate']) {
+        this.departureDate = params['departureDate'];
+      }
+      if (params['returnDate']) {
+        this.returnDate = params['returnDate'];
+      }
+      if (params['budget']) {
+        this.budget = Number(params['budget']);
+      }
+      if (params['expenses']) {
+        this.expenses = JSON.parse(params['expenses']);
+      }
+
+      if (this.departureDate && this.returnDate) {
+        this.setPeriod();
+      }
+      if (this.currency && this.destination) {
+        this.convertAllCosts();
+      }
+    });
   }
 
   constructor(
     private authService: AuthService,
     private fireStoreService: FirestoreService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private alertService: AlertService,
+    private route: ActivatedRoute
   ) {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
     });
   }
+
 
   formatBudget() {
     if (this.budget !== null && this.budget !== undefined) {
@@ -123,6 +152,27 @@ export class BudgetComponent implements OnInit {
     this.authService.logout();
   }
 
+  saveBudget() {
+    if (!this.currency || !this.destination || !this.departureDate || !this.returnDate || !this.budget) {
+      this.alertService.showAlert('Veuillez remplir tous les champs obligatoires', 'error');
+      return;
+    }
+
+    const travelData: Travel = {
+      currency: this.currency,
+      destination: this.destination,
+      departureDate: this.departureDate,
+      returnDate: this.returnDate,
+      budget: this.budget,
+      expenses: this.expenses,
+      createdAt: new Date()
+    };
+
+    this.fireStoreService.saveTravel(travelData).subscribe({
+      error: (err) => this.alertService.showAlert('Erreur lors de la sauvegarde', 'error')
+    });
+  }
+
   convertCost(expense: Expense) {
     if (expense.cost && this.currency  && this.destination) {
       this.apiService.getConvertionRate(this.destination, this.currency, this.currentDate, expense.cost).subscribe(data => {
@@ -139,9 +189,9 @@ export class BudgetComponent implements OnInit {
       // Convertit seulement si le coût de base existe
       if (expense.cost && expense.cost > 0) {
         this.apiService.getConvertionRate(
-          this.destination, 
-          this.currency, 
-          this.currentDate, 
+          this.destination,
+          this.currency,
+          this.currentDate,
           expense.cost
         ).subscribe({
           next: (data) => {
@@ -154,7 +204,6 @@ export class BudgetComponent implements OnInit {
       }
     });
   }
-
-}
+  }
 
 }

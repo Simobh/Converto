@@ -123,7 +123,7 @@ input, select {
   border: 2px solid #ffffff;
   border-radius: 5px;
   font-size: 14px;
-  
+
 }
 
 
@@ -142,14 +142,14 @@ input, select {
   margin-right: 12px;
   height: 500px;
   font-family: 'Istok Web', sans-serif;
-  
+
 }
 
 .left-card .input-group input[readonly] {
     width: 15%; /* ajuste à la taille souhaitée */
   }
-  
-  
+
+
 .right-card {
   background: white;
   color: black;
@@ -198,6 +198,13 @@ input, select {
   font-size: 18px;
   cursor: pointer;
   margin: 18px;
+}
+
+.liste-style {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px;
 }
 
 .liste-style:hover {
@@ -309,15 +316,15 @@ input::placeholder {
     font-family: 'Istok Web', sans-serif;
     opacity: 1; /* pour Firefox */
   }
-  
+
   input::-webkit-input-placeholder {
     font-family: 'Istok Web', sans-serif;
   }
-  
+
   input:-ms-input-placeholder {
     font-family: 'Istok Web', sans-serif;
   }
-  
+
   .error-message {
     background-color: #fff1f0;
     color: #d93025; /* rouge Google */
@@ -330,8 +337,8 @@ input::placeholder {
     margin: 20px auto;
     text-align: center;
   }
-  
-  
+
+
   /* ✅ RESPONSIVE DESIGN */
 
 /* --- TABLETTES --- */
@@ -341,17 +348,17 @@ input::placeholder {
       justify-content: center;
       gap: 15px;
     }
-  
+
     .currency-select-img,
     .input-date {
       width: 45%;
     }
-  
+
     .main-cards {
       flex-direction: column;
       align-items: center;
     }
-  
+
     .left-card,
     .right-card {
       width: 90%;
@@ -359,58 +366,57 @@ input::placeholder {
       height: auto;
     }
   }
-  
+
   /* --- MOBILES --- */
   @media (max-width: 600px) {
     .input-row {
       flex-direction: column;
       align-items: center;
     }
-  
+
     .currency-select-img,
     .input-date {
       width: 90%;
     }
-  
+
     .img-convert {
       display: none;
     }
-  
+
     .expense-row {
       flex-direction: column;
       align-items: stretch;
       gap: 10px;
     }
-  
+
     .expense-row .type-expense,
     .estimated-cost,
     .converted-cost {
       width: 100%;
     }
-  
+
     .delete {
       align-self: flex-end;
       width: 40px;
     }
-  
+
     .add-btn {
       width: 100%;
       font-size: 16px;
       padding: 10px;
     }
-  
+
     .titre {
       font-size: 1.5rem;
     }
-  
+
     .logo img {
       width: 100px;
     }
   }
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+

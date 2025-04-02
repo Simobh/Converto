@@ -23,7 +23,7 @@
               </a>
           </li>
           <li>
-              <a routerLink="/budget">
+              <a routerLink="/travel">
                   <i class="fa-brands fa-avianex"></i><span class="liste-style">Voyage</span>
               </a>
           </li>
@@ -43,7 +43,7 @@
     <div *ngIf="showErrorMessage && !isFormComplete()" class="error-message">
       ⚠️ Veuillez d'abord sélectionner une devise, une destination et une plage de dates
     </div>
-  
+
     <div class="input-row">
         <div class="currency-select-img">
             <img *ngIf="imageUrl" [src]="imageUrl" class="img-currency">
@@ -54,9 +54,9 @@
                 </option>
             </select>
         </div>
-  
+
         <img [src]="'../../assets/fleche.png'" class="img-convert">
-  
+
         <div class="currency-select-img">
             <img *ngIf="flagUrl" [src]="flagUrl" class="img-currency">
             <select [(ngModel)]="destination" (change)="setCountryImage(); convertAllCosts()">
@@ -66,18 +66,18 @@
                 </option>
             </select>
         </div>
-        
+
         <div class="input-date">
           <label class="date-label">Du</label>
           <input type="date" [(ngModel)]="departureDate" [min]="currentDate" [max]="returnDate" (change)="setPeriod()">
         </div>
-        
+
         <div class="input-date">
           <label class="date-label">Jusqu'au</label>
           <input type="date" [(ngModel)]="returnDate" [min]="setMinDate()" placeholder="Date de retour" (change)="setPeriod()">
         </div>
     </div>
-  
+
     <div class="main-cards">
         <div class="left-card">
             <h3>Votre budget</h3>
@@ -91,26 +91,26 @@
                        step="0.01">
                 <span class="currency-label">{{currency}}</span>
             </div>
-            
+
             <h3>Nombre de jours</h3>
             <div class="input-group">
                 <input type="number" [value]="days" readonly>
                 <span class="currency-label">jours</span>
             </div>
-            
+
             <h3 *ngIf="dailyBudget">Budget quotidien estimé</h3>
             <div *ngIf="dailyBudget" class="input-group">
                 <input type="text" [value]="dailyBudget | number:'1.0-2'" readonly>
                 <span class="currency-label">{{currency}}</span>
             </div>
-            
+
             <h3>Total des dépenses</h3>
             <div class="input-group">
                 <input type="text" [value]="total | number:'1.0-2'" readonly>
                 <span class="currency-label">{{currency}}</span>
-            </div>          
+            </div>
         </div>
-  
+
         <div class="right-card">
             <h3>Vos estimations des dépenses</h3>
             <div *ngFor="let exp of expenses; let i = index" class="expense-row">
@@ -119,7 +119,7 @@
                        class="type-expense"
                        (focus)="triggerErrorIfFormIncomplete()"
                        (keydown)="blockTypingIfFormIncomplete($event)">
-  
+
                 <input type="number"
                        [(ngModel)]="exp.cost"
                        (change)="convertCost(exp)"
@@ -128,16 +128,17 @@
                        placeholder="Coût local"
                        class="estimated-cost"
                        step="0.01">
-  
+
                 <span class="arrow">⇄</span>
-  
+
                 <input [value]="exp.convertedCost | number:'1.0-2'" readonly placeholder="Coût converti" class="converted-cost">
-  
+
                 <button class="delete" (click)="removeExpense(i)">-</button>
             </div>
-  
+
             <button class="add-btn" (click)="addExpense()">+</button>
+            <button class="save-btn" (click)="saveBudget()">Sauvegarder</button>
+            <app-alert></app-alert>
         </div>
     </div>
   </div>
-  
