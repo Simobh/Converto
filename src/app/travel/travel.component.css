@@ -38,7 +38,6 @@ body {
 
 .page-container {
   padding: 20px;
-  min-height: 100vh;
   background-color: #0b1736;
   color: white;
   display: flex;
@@ -220,7 +219,7 @@ h2 {
   }
 
   .destination-card {
-    aspect-ratio: 1.5; 
+    aspect-ratio: 1.5;
   }
 
   h2 {
