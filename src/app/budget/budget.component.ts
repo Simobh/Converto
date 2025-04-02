@@ -34,6 +34,27 @@ export class BudgetComponent implements OnInit {
     { description: '', cost: null, convertedCost: null }
   ];
 
+  showErrorMessage: boolean = false;
+
+  blockTypingIfFormIncomplete(event: KeyboardEvent) {
+    if (!this.isFormComplete()) {
+      event.preventDefault(); // bloque la saisie
+      this.showErrorMessage = true;
+    }
+  }
+
+  isFormComplete(): boolean {
+    return !!(this.currency && this.destination && this.departureDate && this.returnDate);
+  }
+  
+  triggerErrorIfFormIncomplete() {
+    if (!this.isFormComplete()) {
+      this.showErrorMessage = true;
+    }
+  }
+  
+  
+
   ngOnInit() {
     this.apiService.getAllCurrencies().subscribe(data => {
       this.currencies = Object.keys(data);
@@ -51,6 +72,12 @@ export class BudgetComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.isAuthenticated = !!user;
     });
+  }
+
+  formatBudget() {
+    if (this.budget !== null && this.budget !== undefined) {
+      this.budget = parseFloat(this.budget.toFixed(2));
+    }
   }
 
   setCurrencyImage(){

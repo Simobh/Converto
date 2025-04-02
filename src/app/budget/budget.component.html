@@ -2,7 +2,7 @@
   <img src="assets/logo.png" alt="Logo" routerLink="/home">
 </div>
 
-<h2 class="titre">Estimate your travel budget</h2>
+<h2 class="titre">Estime ton budget de voyage</h2>
 
 <div class="dropdown-container">
   <details class="dropdown left">
@@ -38,77 +38,106 @@
 </div>
 
 <div class="page-container">
-  <div class="input-row">
-      <div class="currency-select-img">
-          <img *ngIf="imageUrl" [src]="imageUrl" class="img-currency">
-          <select [(ngModel)]="currency" (change)="setCurrencyImage(); convertAllCosts()">
-              <option value="" disabled selected>Votre devise</option>
-              <option *ngFor="let currency of currencies" [value]="currency">
-                  {{ currency }}
-              </option>
-          </select>
-      </div>
 
-      <img [src]="'../../assets/fleche.png'" class="img-convert">
-
-      <div class="currency-select-img">
-          <img *ngIf="flagUrl" [src]="flagUrl" class="img-currency">
-          <select [(ngModel)]="destination" (change)="setCountryImage(); convertAllCosts()">
-              <option value="" disabled selected>Votre destination</option>
-              <option *ngFor="let country of countries" [value]="country.currency">
-                  {{ country.country }}
-              </option>
-          </select>
-      </div>
-      
-      <div class="input-date">
-        <label class="date-label">Du</label>
-        <input type="date" [(ngModel)]="departureDate" [min]="currentDate" [max]="returnDate" (change)="setPeriod()" >
+    <!-- ✅ Message d’erreur uniquement si l’utilisateur interagit sans remplir les champs requis -->
+    <div *ngIf="showErrorMessage && !isFormComplete()" class="error-message">
+      ⚠️ Veuillez d'abord sélectionner une devise, une destination et une plage de dates
     </div>
-      
-      <div class="input-date">
-        <label class="date-label">Jusqu'au</label>
+  
+    <div class="input-row">
+        <div class="currency-select-img">
+            <img *ngIf="imageUrl" [src]="imageUrl" class="img-currency">
+            <select [(ngModel)]="currency" (change)="setCurrencyImage(); convertAllCosts()">
+                <option value="" disabled selected>Votre devise</option>
+                <option *ngFor="let currency of currencies" [value]="currency">
+                    {{ currency }}
+                </option>
+            </select>
+        </div>
+  
+        <img [src]="'../../assets/fleche.png'" class="img-convert">
+  
+        <div class="currency-select-img">
+            <img *ngIf="flagUrl" [src]="flagUrl" class="img-currency">
+            <select [(ngModel)]="destination" (change)="setCountryImage(); convertAllCosts()">
+                <option value="" disabled selected>Votre destination</option>
+                <option *ngFor="let country of countries" [value]="country.currency">
+                    {{ country.country }}
+                </option>
+            </select>
+        </div>
+        
+        <div class="input-date">
+          <label class="date-label">Du</label>
+          <input type="date" [(ngModel)]="departureDate" [min]="currentDate" [max]="returnDate" (change)="setPeriod()">
+        </div>
+        
+        <div class="input-date">
+          <label class="date-label">Jusqu'au</label>
           <input type="date" [(ngModel)]="returnDate" [min]="setMinDate()" placeholder="Date de retour" (change)="setPeriod()">
-      </div>
+        </div>
+    </div>
+  
+    <div class="main-cards">
+        <div class="left-card">
+            <h3>Votre budget</h3>
+            <div class="input-group">
+                <input type="number"
+                       [(ngModel)]="budget"
+                       (blur)="formatBudget()"
+                       (focus)="triggerErrorIfFormIncomplete()"
+                       (keydown)="blockTypingIfFormIncomplete($event)"
+                       placeholder="Entrer votre budget"
+                       step="0.01">
+                <span class="currency-label">{{currency}}</span>
+            </div>
+            
+            <h3>Nombre de jours</h3>
+            <div class="input-group">
+                <input type="number" [value]="days" readonly>
+                <span class="currency-label">jours</span>
+            </div>
+            
+            <h3 *ngIf="dailyBudget">Budget quotidien estimé</h3>
+            <div *ngIf="dailyBudget" class="input-group">
+                <input type="text" [value]="dailyBudget | number:'1.0-2'" readonly>
+                <span class="currency-label">{{currency}}</span>
+            </div>
+            
+            <h3>Total des dépenses</h3>
+            <div class="input-group">
+                <input type="text" [value]="total | number:'1.0-2'" readonly>
+                <span class="currency-label">{{currency}}</span>
+            </div>          
+        </div>
+  
+        <div class="right-card">
+            <h3>Vos estimations des dépenses</h3>
+            <div *ngFor="let exp of expenses; let i = index" class="expense-row">
+                <input [(ngModel)]="exp.description"
+                       placeholder="Type de dépense"
+                       class="type-expense"
+                       (focus)="triggerErrorIfFormIncomplete()"
+                       (keydown)="blockTypingIfFormIncomplete($event)">
+  
+                <input type="number"
+                       [(ngModel)]="exp.cost"
+                       (change)="convertCost(exp)"
+                       (focus)="triggerErrorIfFormIncomplete()"
+                       (keydown)="blockTypingIfFormIncomplete($event)"
+                       placeholder="Coût local"
+                       class="estimated-cost"
+                       step="0.01">
+  
+                <span class="arrow">⇄</span>
+  
+                <input [value]="exp.convertedCost | number:'1.0-2'" readonly placeholder="Coût converti" class="converted-cost">
+  
+                <button class="delete" (click)="removeExpense(i)">-</button>
+            </div>
+  
+            <button class="add-btn" (click)="addExpense()">+</button>
+        </div>
+    </div>
   </div>
-
-  <div class="main-cards">
-      <div class="left-card">
-          <h3>Votre budget</h3>
-          <div class="input-group">
-              <input type="number" [(ngModel)]="budget" placeholder="Entrer votre budget">
-              <span class="currency-label">{{currency}}</span>
-          </div>
-          
-          <h3>Nombre de jours</h3>
-          <div class="input-group">
-              <input type="number" [value]="days" readonly>
-              <span class="currency-label">jours</span>
-          </div>
-          
-          <h3 *ngIf="dailyBudget">Budget quotidien estimé</h3>
-          <div *ngIf="dailyBudget" class="input-group">
-              <input type="number" [value]="dailyBudget" readonly>
-              <span class="currency-label">{{currency}}</span>
-          </div>
-          
-          <h3>Total</h3>
-          <div class="input-group">
-              <input type="number" [value]="total" readonly>
-              <span class="currency-label">{{currency}}</span>
-          </div>
-      </div>
-
-      <div class="right-card">
-          <h3>Vos estimations des dépenses</h3>
-          <div *ngFor="let exp of expenses; let i = index" class="expense-row">
-              <input [(ngModel)]="exp.description" placeholder="Type de dépense" class="type-expense">
-              <input type="number" [(ngModel)]="exp.cost" (change)="convertCost(exp)" placeholder="Coût local" class="estimated-cost">
-              <span class="arrow">⇄</span>
-              <input [value]="exp.convertedCost | number:'1.0-2'" readonly placeholder="Coût converti" class="converted-cost">
-              <button class="delete" (click)="removeExpense(i)">-</button>
-          </div>
-          <button class="add-btn" (click)="addExpense()">+</button>
-      </div>
-  </div>
-</div>
+  
