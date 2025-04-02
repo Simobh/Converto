@@ -73,6 +73,18 @@ export class FirestoreService {
       })
     );
   }
+
+  getUserTravale(): Observable<any[]> {
+    return this.getUserUID().pipe(
+      switchMap(uid => {
+        if (!uid) return of([]); // Si l'utilisateur n'est pas connecté, on retourne une liste vide
+
+        const userTravelsCollection = collection(this.firestore, `users/${uid}/travel`);
+        return collectionData(userTravelsCollection, { idField: 'id' }); // Retourne les données Firestore avec l'ID
+      })
+    );
+  }
+
   deleteFavorite(favoriteId: string) {
     return this.getUserUID().pipe(
       switchMap(uid => {

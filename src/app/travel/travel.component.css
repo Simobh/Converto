@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap');
+
+.logo {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+
+  .logo img {
+    width: 130px;
+    height: auto;
+  }
+
+  .profile-button {
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    background-color: transparent;
+    border: none;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+
+  .profile-button img {
+    width: 80px;
+    height: auto;
+  }
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Istok Web', sans-serif;
+  background-color: #0b1736;
+}
+
+.page-container {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #0b1736;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  color: #4da3e0;
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 2rem;
+  text-align: center;
+  font-family: 'Istok Web', sans-serif;
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.destination-card {
+  aspect-ratio: 1;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.destination-text {
+  color: #ffffff;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.2em;
+  font-family: 'Istok Web', sans-serif;
+  z-index: 2;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  margin-top: auto;
+}
+
+.card-text {
+  color: #333;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+.add-icon {
+  font-size: 40px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #00bcd4;
+  border-radius: 15px;
+}
+
+.add-text{
+  color: #ffffff;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.2em;
+  font-family: 'Istok Web', sans-serif;
+  z-index: 2;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  margin-top: auto;
+}
+
+.liste-style {
+  font-family: 'Istok Web', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.liste-style:hover {
+  transform: scale(1.03);
+}
+
+.dropdown-container {
+  position: absolute;
+  top: 5px;
+  right: 40px;
+  padding: 10px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown[open] summary {
+  background: #ffffff10;
+}
+
+.dropdown summary {
+  list-style: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.profile-img {
+  width: 80px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.with-down-arrow {
+  display: inline-flex;
+  padding: 5px;
+  align-items: center;
+  color: #fff;
+  line-height: 1;
+}
+
+.dropdown.left ul {
+  left: auto;
+  right: 0;
+  top: 100%;
+  margin-top: 10px;
+}
+
+.dropdown ul {
+  padding: 8px 0;
+  margin: 0;
+  box-shadow: 0 0 10px #00000030;
+  min-width: 200px;
+  position: absolute;
+  border-radius: 10px;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.dropdown ul li {
+  list-style-type: none;
+  padding: 8px 16px;
+}
+
+.dropdown ul li a {
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown ul li.divider {
+  border-top: 1px solid #eee;
+  margin: 1px 0;
+}
+
+@media (max-width: 1200px) {
+  .destinations-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .destinations-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .profile-button {
+    top: 10px;
+    right: 20px;
+  }
+
+  .page-container {
+    padding: 10px;
+  }
+
+  .destination-card {
+    aspect-ratio: 1.5; 
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-button {
+    top: 10px;
+    right: 10px;
+  }
+
+  .destination-card {
+    padding: 10px;
+  }
+
+  .destination-text {
+    font-size: 1rem;
+  }
+
+  .add-text {
+    font-size: 1rem;
+  }
+
+  .dropdown ul {
+    min-width: 160px;
+  }
+
+  .logo img {
+    width: 100px;
+  }
+
+  .profile-img {
+    width: 60px;
+  }
+}
