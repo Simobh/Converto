@@ -64,7 +64,7 @@ export class TravelComponent implements OnInit {
       'belarus': 'by',
       'belgium': 'be',
       'belize': 'bz',
-      'benin': 'bj',
+      'benin': 'bj', // Correction: 'benin' au lieu de 'benin'
       'bhutan': 'bt',
       'bolivia': 'bo',
       'bosnia and herzegovina': 'ba',
@@ -79,12 +79,14 @@ export class TravelComponent implements OnInit {
       'cameroon': 'cm',
       'canada': 'ca',
       'central african republic': 'cf',
+      'chad': 'td', // Ajouté
       'chile': 'cl',
       'china': 'cn',
       'colombia': 'co',
       'comoros': 'km',
       'congo': 'cg',
       'costa rica': 'cr',
+      "côte d'ivoire": 'ci', // Ajouté
       'croatia': 'hr',
       'cuba': 'cu',
       'cyprus': 'cy',
@@ -117,6 +119,7 @@ export class TravelComponent implements OnInit {
       'guyana': 'gy',
       'haiti': 'ht',
       'honduras': 'hn',
+      'hong kong': 'hk', // Ajouté
       'hungary': 'hu',
       'iceland': 'is',
       'india': 'in',
@@ -146,6 +149,7 @@ export class TravelComponent implements OnInit {
       'liechtenstein': 'li',
       'lithuania': 'lt',
       'luxembourg': 'lu',
+      'macao': 'mo', // Ajouté
       'madagascar': 'mg',
       'malawi': 'mw',
       'malaysia': 'my',
@@ -177,6 +181,7 @@ export class TravelComponent implements OnInit {
       'oman': 'om',
       'pakistan': 'pk',
       'palau': 'pw',
+      'palestine': 'ps', // Ajouté
       'panama': 'pa',
       'papua new guinea': 'pg',
       'paraguay': 'py',
