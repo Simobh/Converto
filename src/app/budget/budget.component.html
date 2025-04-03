@@ -43,6 +43,9 @@
     <div *ngIf="showErrorMessage && !isFormComplete()" class="error-message">
       ⚠️ Veuillez d'abord sélectionner une devise, une destination et une plage de dates
     </div>
+    <div *ngIf="!isBudgetRespected()" class="error-message">
+      ⚠️ Veuillez ajuster vos dépenses ! vous avez depassé le budget fixé
+    </div>
 
     <div class="input-row">
         <div class="currency-select-img">
@@ -119,7 +122,7 @@
             <h3>Vos estimations des dépenses</h3>
             <div *ngFor="let exp of expenses; let i = index" class="expense-row">
                 <input [(ngModel)]="exp.description"
-                       placeholder="Type de dépense"
+                       placeholder="De quoi s'agit cette depense ? "
                        class="type-expense"
                        (focus)="triggerErrorIfFormIncomplete()"
                        (keydown)="blockTypingIfFormIncomplete($event)">
@@ -129,7 +132,7 @@
                        (change)="convertCost(exp)"
                        (focus)="triggerErrorIfFormIncomplete()"
                        (keydown)="blockTypingIfFormIncomplete($event)"
-                       placeholder="Coût local"
+                       placeholder="Coût a votre devise"
                        class="estimated-cost"
                        step="0.01">
 
@@ -139,9 +142,10 @@
 
                 <button class="delete" (click)="removeExpense(i)"></button>
             </div>
-
-            <button class="add-btn" (click)="addExpense()">+</button>
-            <button class="save-btn" (click)="saveBudget()">Sauvegarder</button>
+            <div class="buttons-container">
+              <button class="add-btn" (click)="addExpense()">+</button>
+              <button class="save-btn" (click)="saveBudget()">Sauvegarder</button>
+            </div>
             <app-alert></app-alert>
         </div>
     </div>

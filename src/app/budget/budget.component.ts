@@ -51,6 +51,11 @@ export class BudgetComponent implements OnInit {
     }
   }
 
+  isBudgetRespected(): boolean{
+    if(this.budget) return this.total < this.budget;
+    else return true;
+  }
+
   ngOnInit() {
     this.apiService.getAllCurrencies().subscribe(data => {
       this.currencies = Object.keys(data);

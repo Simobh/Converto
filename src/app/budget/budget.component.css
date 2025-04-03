@@ -42,9 +42,12 @@ body {
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
+  margin-block: 0px;
 }
 
 .input-row {
+  width: 90%;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,11 +75,6 @@ body {
 
 .img-convert{
   width: 4%;
-}
-
-.input-row{
-  width: 90%;
-  margin: auto;
 }
 
 .currency-select-img , .input-date{
@@ -128,8 +126,10 @@ input, select {
 
 
 .main-cards {
+  width: 90%;
+  margin: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-block: 20px;
 }
 
@@ -138,8 +138,7 @@ input, select {
   color: black;
   padding: 15px;
   border-radius: 10px;
-  width: 23%;
-  margin-right: 12px;
+  width: 25%;
   height: auto;
   font-family: 'Istok Web', sans-serif;
 
@@ -150,8 +149,7 @@ input, select {
   color: black;
   padding: 15px;
   border-radius: 10px;
-  width: 60%;
-  margin-left: 12px;
+  width: 70%;
   height: Auto;
   font-family: 'Istok Web', sans-serif;
 }
@@ -409,30 +407,51 @@ input::placeholder {
     }
 
     .expense-row {
-      flex-direction: column;
-      align-items: stretch;
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
+      margin-bottom: 15px;
     }
-
-    .expense-row .type-expense,
-    .estimated-cost,
-    .converted-cost {
+    
+    .expense-row .type-expense {
       width: 100%;
+      order: 1;
+      margin-bottom: 12px;
     }
-
-    .delete {
-      align-self: flex-end;
-      width: 40px;
+    
+    /* Conteneur pour les éléments de coût */
+    .expense-row .costs-container {
+      display: flex;
+      align-items: center;
+      order: 2;
+      width: 100%;
+      gap: 5px;
+    }
+    
+    .expense-row .estimated-cost {
+      width: 35%;
+      order: 1;
+    }
+    
+    .expense-row .arrow {
+      display: none;
+    }
+    
+    .expense-row .converted-cost {
+      width: 35%;
+      order: 3;
+    }
+    
+    .expense-row .delete {
+      order: 3;
+      margin-left: auto;
+      width: 10;
     }
 
     .add-btn {
-      width: 100%;
+      width: auto;
       font-size: 16px;
       padding: 10px;
-    }
-
-    .titre {
-      font-size: 1.5rem;
     }
 
     .logo img {
