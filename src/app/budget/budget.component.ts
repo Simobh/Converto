@@ -26,6 +26,7 @@ export class BudgetComponent implements OnInit {
   budget: number | null = null;
   days !: number ;
   isAuthenticated = false;
+  travelId: string | null = null;
 
   expenses: Expense[] = [
     { description: '', cost: null, convertedCost: null }
@@ -65,6 +66,9 @@ export class BudgetComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe(params => {
+      if (params['travelId']) {
+        this.travelId = params['travelId'];
+      }
       if (params['currency']) {
         this.currency = params['currency'];
         this.setCurrencyImage();
@@ -167,19 +171,32 @@ export class BudgetComponent implements OnInit {
       return;
     }
 
-    const travelData: Travel = {
+    const travelData = {
       currency: this.currency,
       destination: this.destination,
       departureDate: this.departureDate,
       returnDate: this.returnDate,
       budget: this.budget,
       expenses: this.expenses,
-      createdAt: new Date()
+      updatedAt: new Date()
     };
 
-    this.fireStoreService.saveTravel(travelData).subscribe({
-      error: (err) => this.alertService.showAlert('Erreur lors de la sauvegarde', 'error')
-    });
+    if (this.travelId) {
+      // Update existing travel
+      this.fireStoreService.updateTravel(this.travelId, travelData).subscribe({
+        error: (err) => this.alertService.showAlert('Erreur lors de la mise à jour', 'error')
+      });
+    } else {
+      // Create new travel
+      const newTravelData = {
+        ...travelData,
+        userId: '',
+        createdAt: new Date()
+      };
+      this.fireStoreService.saveTravel(newTravelData).subscribe({
+        error: (err) => this.alertService.showAlert('Erreur lors de la sauvegarde', 'error')
+      });
+    }
   }
 
   convertCost(expense: Expense) {

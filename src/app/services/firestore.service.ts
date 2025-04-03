@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, collectionData, query, where, deleteDoc, doc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, collectionData, query, where, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 import { Auth, authState } from '@angular/fire/auth';
 import { AlertService } from './alert.service';
 import { map, switchMap } from 'rxjs/operators';
@@ -131,6 +131,23 @@ export class FirestoreService {
         })).pipe(
           map(() => {
             this.alertService.showAlert('Votre voyage a été sauvegardé avec succès', 'success');
+            return true;
+          })
+        );
+      })
+    );
+  }
+
+  updateTravel(travelId: string, travelData: any): Observable<boolean> {
+    return this.getUserUID().pipe(
+      switchMap(uid => {
+        if (!uid) {
+          return throwError(() => new Error('User not authenticated'));
+        }
+        const travelDoc = doc(this.firestore, `users/${uid}/travels/${travelId}`);
+        return from(updateDoc(travelDoc, travelData)).pipe(
+          map(() => {
+            this.alertService.showAlert('Voyage mis à jour avec succès', 'success');
             return true;
           })
         );

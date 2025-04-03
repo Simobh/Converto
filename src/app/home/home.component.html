@@ -75,7 +75,7 @@
     </div>
 
     <div class="date-input">
-      <input type="date" [(ngModel)]="date" (input)="convert('amount1')" />
+      <input type="date" [(ngModel)]="date" (input)="convert('amount1')" [max]="date"/>
     </div>
 
     <div *ngIf="isAuthenticated; else notAuthenticatedForFavoris">

@@ -254,6 +254,7 @@ export class TravelComponent implements OnInit {
       this.apiService.getCurrencyFromCountry(destination.destination).subscribe(currency => {
         this.router.navigate(['/budget'], {
           queryParams: {
+            travelId: destination.id,
             currency: destination.currency,
             destination: currency,
             departureDate: destination.departureDate,
