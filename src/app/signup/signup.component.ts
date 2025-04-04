@@ -10,7 +10,8 @@ import { AlertService } from '../services/alert.service';
 export class SignupComponent {
   email = '';
   password = '';
-  name ='';
+  nom ='';
+  prenom = '';
 
   constructor(private authService: AuthService, private alertService : AlertService) {}
 

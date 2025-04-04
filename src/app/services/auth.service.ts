@@ -54,12 +54,12 @@ export class AuthService {
         if (user.emailVerified) {
           this.router.navigate(['/home']);
         } else {
-          alert("Merci de vérifier votre email avant de vous connecter.");
+          this.alertService.showAlert("Merci de vérifier votre email avant de vous connecter", 'info');
           this.logout();
         }
       })
       .catch(() => {
-        alert("Email ou mot de passe invalide !");
+        this.alertService.showAlert("Email ou mot de passe invalide !", 'error');
       });
   }
 
@@ -69,15 +69,11 @@ export class AuthService {
       .catch(error => console.error("Erreur de déconnexion:", error.message));
   }
 
-  resetPassword(email: string) {
-    sendPasswordResetEmail(this.auth, email)
-      .then(() => {
-        alert('Email de réinitialisation envoyé !');
-      })
-      .catch((error) => {
-        alert("Erreur: " + error.message);
-      });
+
+  resetPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email);
   }
+  
 
   signWithGoogle(){
     return signInWithPopup(this.auth, new GoogleAuthProvider())

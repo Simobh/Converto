@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'budget', component: BudgetComponent , canActivate: [AuthGuard]},
   { path: 'travel', component: TravelComponent , canActivate: [AuthGuard]},
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
