@@ -167,57 +167,6 @@ body {
   }
 }
 
-/* Mobiles */
-@media (max-width: 768px) {
-  .currency-table thead {
-    display: none;
-  }
-
-  .currency-table,
-  .currency-table tbody,
-  .currency-table tr,
-  .currency-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .currency-table tr {
-    margin-bottom: 15px;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
-    padding: 10px;
-  }
-
-  .currency-table td {
-    text-align: left;
-    padding: 10px 16px;
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-  }
-
-  .currency-table td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
-    color: #666;
-  }
-
-  .currency-table .graph {
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-  }
-
-
-
-  .titre {
-    font-size: 1.4rem;
-    padding-left: 5%;
-  }
-}
 
 app-chart {
   display: block;
