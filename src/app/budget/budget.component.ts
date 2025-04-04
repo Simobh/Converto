@@ -53,7 +53,7 @@ export class BudgetComponent implements OnInit {
   }
 
   isBudgetRespected(): boolean{
-    if(this.budget) return this.total < this.budget;
+    if(this.budget) return this.total <= this.budget;
     else return true;
   }
 
